@@ -4,11 +4,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
-public class NotionClient {
+public class DatabaseRequest {
 
     private final WebClient webClient;
 
-    public NotionClient(WebClient webClient) {
+    public DatabaseRequest(WebClient webClient) {
         this.webClient = webClient;
+    }
+
+    public void retrieveDatabaseInfo() {
+
     }
 }
