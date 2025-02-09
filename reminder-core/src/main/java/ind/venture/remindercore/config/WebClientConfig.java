@@ -11,7 +11,9 @@ public class WebClientConfig {
     public WebClient webClient() {
         return WebClient.builder()
                 .baseUrl("https://api.notion.com/v1/")
+
                 .defaultHeader("Content-Type", "application/json")
+                .defaultHeader("Notion-Version", "2022-06-28")
                 .build();
     }
 }
