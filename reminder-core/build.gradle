@@ -4,13 +4,12 @@ plugins {
 }
 
 repositories {
-    mavenCentral()  // Maven Central 저장소를 사용하여 의존성 다운로드
+    mavenCentral()
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.boot:spring-boot-starter-webflux") // 추후 WAS 제거
     testImplementation 'io.projectreactor:reactor-test:3.7.2'
-
 }
 
 test {
