@@ -1,4 +1,4 @@
-package ind.venture.remindercore.request.validate;
+package ind.venture.remindercore.request;
 
 
 import ind.venture.remindercore.domain.Database;
