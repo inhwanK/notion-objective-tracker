@@ -1,4 +1,4 @@
-package ind.venture.remindercore.domain;
+package ind.venture.remindercore.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,20 +19,8 @@ public class Property {
         this.type = type;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public boolean isReminderProperty() {
-        if (type.equals("date") && name.equals("리마인더")) {
+    public boolean isDate() {
+        if("date".equals(type)) {
             return true;
         }
         return false;
