@@ -1,12 +1,18 @@
 package ind.venture.remindercore.service;
 
 import ind.venture.remindercore.domain.Database;
+import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.domain.filter.DateFilter;
 import ind.venture.remindercore.domain.filter.PropertyFilter;
+import ind.venture.remindercore.domain.query.QueryResults;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.management.Query;
+import java.util.List;
 
 @Service
 public class NotionDatabaseService {
@@ -37,7 +43,7 @@ public class NotionDatabaseService {
                 .map(Database::isReminder);
     }
 
-    public Mono<Boolean> findReminderPage(String apiKey, String databaseId) {
+    public Mono<List<Page>> findReminderPage(String apiKey, String databaseId) {
         DateFilter dateFilter = DateFilter.builder()
                 .isNotEmpty(true)
                 .build();
@@ -48,6 +54,7 @@ public class NotionDatabaseService {
                 .header("Authorization", "Bearer " + apiKey)
                 .bodyValue(new PropertyFilter("리마인더", dateFilter))
                 .retrieve()
-                .bodyToMono(Boolean.class);
+                .bodyToMono(QueryResults.class)
+                .map(QueryResults::getResults);
     }
 }
