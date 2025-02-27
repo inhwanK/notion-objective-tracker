@@ -1,4 +1,4 @@
-package ind.venture.remindercore.model.filter;
+package ind.venture.remindercore.domain.filter;
 
 public class PropertyFilter {
     private String property;
