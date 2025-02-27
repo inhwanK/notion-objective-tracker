@@ -1,0 +1,45 @@
+package ind.venture.remindercore.model;
+
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import java.util.HashMap;
+
+public class DatabaseTests {
+
+
+    @Test
+    @DisplayName("데이터베이스에 날짜 속성이 존재하고, 속성 이름이 '리마인더'이면 true를 반환한다. ")
+    void isReminderTrue() {
+        HashMap<String, Property> properties = new HashMap<>();
+        Property reminder = new Property("asdfas", "리마인더", "date");
+        properties.put("리마인더", reminder);
+
+        Database db = new Database("abcd", properties);
+        Assertions.assertTrue(db.isReminder());
+    }
+
+    @Test
+    @DisplayName("데이터베이스에 날짜 속성이 존재하지만, 속성 이름이 '리마인더'가 아니면 false를 반환한다. ")
+    void isReminderFalseBecausePropertyExistButNotReminder() {
+        HashMap<String, Property> properties = new HashMap<>();
+        Property reminder = new Property("asdfas", "날짜", "date");
+        properties.put("날짜", reminder);
+
+        Database db = new Database("abcd", properties);
+        Assertions.assertFalse(db.isReminder());
+    }
+
+    @Test
+    @DisplayName("데이터베이스에 날짜 속성이 존재하지 않으면, false를 반환한다. ")
+    void isReminderFalseBecausePropertyNotExist() {
+        HashMap<String, Property> properties = new HashMap<>();
+
+        Database db = new Database("abcd", properties);
+        Assertions.assertFalse(db.isReminder());
+    }
+
+
+}
