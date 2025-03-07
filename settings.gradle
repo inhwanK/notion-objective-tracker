@@ -1,4 +1,3 @@
 rootProject.name = 'notion-reminder'
 
 include 'reminder-core'
-include 'reminder-api'
