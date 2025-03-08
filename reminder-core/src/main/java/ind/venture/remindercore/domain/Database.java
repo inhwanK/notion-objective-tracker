@@ -27,6 +27,14 @@ public class Database {
         return true;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public Map<String, Property> getProperties() {
+        return properties;
+    }
+
     @Override
     public String toString() {
         return "Database{" +

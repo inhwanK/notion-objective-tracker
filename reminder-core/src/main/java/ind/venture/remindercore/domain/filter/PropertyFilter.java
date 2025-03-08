@@ -8,4 +8,12 @@ public class PropertyFilter {
         this.property = property;
         this.dateFilter = dateFilter;
     }
+
+    public DateFilter getDateFilter() {
+        return dateFilter;
+    }
+
+    public String getProperty() {
+        return property;
+    }
 }
