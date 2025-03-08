@@ -19,6 +19,18 @@ public class Property {
         this.type = type;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public boolean isDate() {
         if("date".equals(type)) {
             return true;

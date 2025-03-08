@@ -10,6 +10,34 @@ public class DateFilter {
     private String onOrBefore;
 
 
+    public boolean isEmpty() {
+        return isEmpty;
+    }
+
+    public boolean isNotEmpty() {
+        return isNotEmpty;
+    }
+
+    public String getEquals() {
+        return equals;
+    }
+
+    public String getAfter() {
+        return after;
+    }
+
+    public String getBefore() {
+        return before;
+    }
+
+    public String getOnOrAfter() {
+        return onOrAfter;
+    }
+
+    public String getOnOrBefore() {
+        return onOrBefore;
+    }
+
     private DateFilter(Builder builder) {
         this.equals = builder.equals;
         this.after = builder.after;
