@@ -1,10 +1,14 @@
 package ind.venture.remindercore.service;
 
+//import ind.venture.remindercore.domain.Database;
+
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
+import ind.venture.remindercore.domain.DatabaseProperty;
 import ind.venture.remindercore.domain.filter.DateFilter;
 import ind.venture.remindercore.domain.filter.PropertyFilter;
 import ind.venture.remindercore.domain.query.QueryResults;
+import notion.api.v1.json.GsonSerializer;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -16,6 +20,7 @@ import java.util.List;
 @Service
 public class NotionDatabaseService {
 
+    private GsonSerializer gsonSerializer;
     private final WebClient notionClient;
     private static final String DATABASE_URI = "/databases/";
 
@@ -32,6 +37,7 @@ public class NotionDatabaseService {
                 .bodyToMono(Database.class);
     }
 
+
     public Mono<Boolean> checkHasReminderProperty(String apiKey, String databaseId) {
         return notionClient.get()
                 .uri(DATABASE_URI + databaseId)
@@ -39,7 +45,15 @@ public class NotionDatabaseService {
                 .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
                 .bodyToMono(Database.class)
-                .map(Database::isReminder);
+                .map(this::isReminder);
+    }
+
+    private boolean isReminder(Database database) {
+        if (!database.getProperties().containsKey("리마인더")) {
+            return false;
+        }
+        DatabaseProperty reminder = database.getProperties().get("리마인더");
+        return "date".equals(reminder.getType());
     }
 
     public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
