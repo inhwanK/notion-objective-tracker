@@ -1,6 +1,7 @@
 package ind.venture.remindercore.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ind.venture.remindercore.domain.property.DatabaseProperty;
 
 import java.util.Map;
 

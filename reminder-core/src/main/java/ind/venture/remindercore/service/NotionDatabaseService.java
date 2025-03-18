@@ -4,7 +4,7 @@ package ind.venture.remindercore.service;
 
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
-import ind.venture.remindercore.domain.DatabaseProperty;
+import ind.venture.remindercore.domain.property.DatabaseProperty;
 import ind.venture.remindercore.domain.filter.DateFilter;
 import ind.venture.remindercore.domain.filter.PropertyFilter;
 import ind.venture.remindercore.domain.query.QueryResults;

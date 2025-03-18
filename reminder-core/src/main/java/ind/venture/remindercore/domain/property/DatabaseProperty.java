@@ -1,4 +1,4 @@
-package ind.venture.remindercore.domain;
+package ind.venture.remindercore.domain.property;
 
 public class DatabaseProperty {
 
