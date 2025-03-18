@@ -2,8 +2,10 @@ package ind.venture.remindercore.service;
 
 //import ind.venture.remindercore.domain.Database;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
+import ind.venture.remindercore.domain.filter.FilterRequest;
 import ind.venture.remindercore.domain.property.DatabaseProperty;
 import ind.venture.remindercore.domain.filter.DateFilter;
 import ind.venture.remindercore.domain.filter.PropertyFilter;
@@ -58,16 +60,17 @@ public class NotionDatabaseService {
 
     public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
         DateFilter dateFilter = DateFilter.builder()
-                .isNotEmpty(true)
+                .notEmpty(true)
                 .build();
 
         PropertyFilter propertyFilter = new PropertyFilter("리마인더", dateFilter);
+        FilterRequest filterRequest = new FilterRequest(propertyFilter);
 
         return notionClient.post()
                 .uri(DATABASE_URI + databaseId + "/query")
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
-                .bodyValue(BodyInserters.fromValue(propertyFilter))
+                .bodyValue(filterRequest)
                 .retrieve()
                 .bodyToMono(QueryResults.class)
                 .map(QueryResults::getResults);

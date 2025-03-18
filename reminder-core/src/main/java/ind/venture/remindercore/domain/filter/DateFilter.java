@@ -1,21 +1,42 @@
 package ind.venture.remindercore.domain.filter;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class DateFilter {
-    private boolean isEmpty;
-    private boolean isNotEmpty;
+    @JsonProperty("is_empty")
+    private boolean empty;
+    @JsonProperty("is_not_empty")
+    private boolean notEmpty;
     private String equals;
     private String after;
     private String before;
+    @JsonProperty("on_or_after")
     private String onOrAfter;
+    @JsonProperty("on_or_before")
     private String onOrBefore;
 
-
-    public boolean isEmpty() {
-        return isEmpty;
+    public DateFilter(
+            boolean empty,
+            boolean notEmpty,
+            String equals,
+            String after,
+            String before,
+            String onOrAfter,
+            String onOrBefore
+    ) {
+        this.empty = empty;
+        this.notEmpty = notEmpty;
+        this.equals = equals;
+        this.after = after;
+        this.before = before;
+        this.onOrAfter = onOrAfter;
+        this.onOrBefore = onOrBefore;
     }
 
-    public boolean isNotEmpty() {
-        return isNotEmpty;
+    public boolean isEmpty() {
+        return empty;
     }
 
     public String getEquals() {
@@ -44,8 +65,8 @@ public class DateFilter {
         this.before = builder.before;
         this.onOrAfter = builder.onOrAfter;
         this.onOrBefore = builder.onOrBefore;
-        this.isEmpty = builder.isEmpty;
-        this.isNotEmpty = builder.isNotEmpty;
+        this.empty = builder.empty;
+        this.notEmpty = builder.notEmpty;
     }
 
     public static Builder builder() {
@@ -59,8 +80,8 @@ public class DateFilter {
         private String before = null;
         private String onOrAfter = null;
         private String onOrBefore = null;
-        private boolean isEmpty = false;
-        private boolean isNotEmpty = false;
+        private boolean empty = false;
+        private boolean notEmpty = false;
 
         public Builder equals(String equals) {
             this.equals = equals;
@@ -88,15 +109,15 @@ public class DateFilter {
         }
 
 
-        public Builder isEmpty(boolean isEmpty) {
-            this.isEmpty = isEmpty;
-            this.isNotEmpty = !isEmpty;
+        public Builder empty(boolean empty) {
+            this.empty = empty;
+            this.notEmpty = !empty;
             return this;
         }
 
-        public Builder isNotEmpty(boolean isNotEmpty) {
-            this.isNotEmpty = isNotEmpty;
-            this.isEmpty = !isNotEmpty;
+        public Builder notEmpty(boolean notEmpty) {
+            this.notEmpty = notEmpty;
+            this.empty = !notEmpty;
             return this;
         }
 
