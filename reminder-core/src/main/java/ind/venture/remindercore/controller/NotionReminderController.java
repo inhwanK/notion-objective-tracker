@@ -11,28 +11,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class NotionDatabaseController {
+public class NotionReminderController {
 
     private final NotionDatabaseService notionDatabaseService;
 
-    public NotionDatabaseController(NotionDatabaseService notionDatabaseService) {
+    public NotionReminderController(NotionDatabaseService notionDatabaseService) {
         this.notionDatabaseService = notionDatabaseService;
-    }
-
-    @GetMapping("/{databaseId}/reminder-pages")
-    public Mono<List<Page>> getAllReminderPage(
-            @RequestHeader("Authorization") String apiKey,
-            @PathVariable("databaseId") String databaseId
-    ) {
-        return notionDatabaseService.findAllReminderPage(apiKey, databaseId);
-    }
-
-    @GetMapping("/{databaseId}/check")
-    public Mono<Boolean> checkReminderDatabase(
-            @RequestHeader("Authorization") String apiKey,
-            @PathVariable("databaseId") String databaseId
-    ) {
-        return notionDatabaseService.checkHasReminderProperty(apiKey, databaseId);
     }
 
     @GetMapping("/{databaseId}/info")
@@ -43,4 +27,27 @@ public class NotionDatabaseController {
         return notionDatabaseService.getDatabaseInfo(apiKey, databaseId);
     }
 
+    @GetMapping("/{databaseId}/check")
+    public Mono<Boolean> checkReminderDatabase(
+            @RequestHeader("Authorization") String apiKey,
+            @PathVariable("databaseId") String databaseId
+    ) {
+        return notionDatabaseService.checkHasReminderProperty(apiKey, databaseId);
+    }
+
+    @GetMapping("/{databaseId}/reminder-pages")
+    public Mono<List<Page>> getAllReminderPage(
+            @RequestHeader("Authorization") String apiKey,
+            @PathVariable("databaseId") String databaseId
+    ) {
+        return notionDatabaseService.findAllReminderPage(apiKey, databaseId);
+    }
+
+    @GetMapping("/{databaseId}/today")
+    public Mono<List<Page>> getTodayReminderPage(
+            @RequestHeader("Authorization") String apiKey,
+            @PathVariable("databaseId") String databaseId
+    ) {
+        return notionDatabaseService.findTodayReminderPage(apiKey, databaseId);
+    }
 }

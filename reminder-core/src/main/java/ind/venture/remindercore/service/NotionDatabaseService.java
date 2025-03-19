@@ -10,6 +10,7 @@ import ind.venture.remindercore.domain.property.DatabaseProperty;
 import ind.venture.remindercore.domain.filter.DateFilter;
 import ind.venture.remindercore.domain.filter.PropertyFilter;
 import ind.venture.remindercore.domain.query.QueryResults;
+import ind.venture.remindercore.util.FilterFactory;
 import notion.api.v1.json.GsonSerializer;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -59,13 +60,22 @@ public class NotionDatabaseService {
     }
 
     public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
-        DateFilter dateFilter = DateFilter.builder()
-                .notEmpty(true)
-                .build();
+        FilterRequest filterRequest = FilterFactory.createNotEmptyFilterRequest();
 
-        PropertyFilter propertyFilter = new PropertyFilter("리마인더", dateFilter);
-        FilterRequest filterRequest = new FilterRequest(propertyFilter);
+        return findReminderPage(apiKey, databaseId, filterRequest);
+    }
 
+    public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
+        FilterRequest filterRequest = FilterFactory.createTodayFilterRequest();
+
+        return findReminderPage(apiKey, databaseId, filterRequest);
+    }
+
+    public Mono<List<Page>> findReminderPage(
+            String apiKey,
+            String databaseId,
+            FilterRequest filterRequest
+    ) {
         return notionClient.post()
                 .uri(DATABASE_URI + databaseId + "/query")
                 .accept(MediaType.APPLICATION_JSON)

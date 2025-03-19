@@ -8,6 +8,7 @@ public class FilterRequest {
     public FilterRequest(PropertyFilter filter) {
         this.filter = filter;
     }
+
     public PropertyFilter getFilter() {
         return filter;
     }
