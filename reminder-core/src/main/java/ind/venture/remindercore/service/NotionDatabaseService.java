@@ -1,20 +1,15 @@
 package ind.venture.remindercore.service;
 
-//import ind.venture.remindercore.domain.Database;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.domain.filter.FilterRequest;
 import ind.venture.remindercore.domain.property.DatabaseProperty;
-import ind.venture.remindercore.domain.filter.DateFilter;
-import ind.venture.remindercore.domain.filter.PropertyFilter;
 import ind.venture.remindercore.domain.query.QueryResults;
 import ind.venture.remindercore.util.FilterFactory;
 import notion.api.v1.json.GsonSerializer;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -67,6 +62,12 @@ public class NotionDatabaseService {
 
     public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
         FilterRequest filterRequest = FilterFactory.createTodayFilterRequest();
+
+        return findReminderPage(apiKey, databaseId, filterRequest);
+    }
+
+    public Mono<List<Page>> findWeeklyReminderPage(String apiKey, String databaseId) {
+        FilterRequest filterRequest = FilterFactory.createWeeklyFilterRequest();
 
         return findReminderPage(apiKey, databaseId, filterRequest);
     }

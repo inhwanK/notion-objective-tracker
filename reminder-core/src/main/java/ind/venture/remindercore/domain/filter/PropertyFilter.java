@@ -2,13 +2,12 @@ package ind.venture.remindercore.domain.filter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class PropertyFilter {
-    private String property;
+public class PropertyFilter implements QueryFilter {
+    private static final String property = "리마인더";
     @JsonProperty("date")
     private DateFilter dateFilter;
 
-    public PropertyFilter(String property, DateFilter dateFilter) {
-        this.property = property;
+    public PropertyFilter(DateFilter dateFilter) {
         this.dateFilter = dateFilter;
     }
 
@@ -18,10 +17,6 @@ public class PropertyFilter {
 
     public String getProperty() {
         return property;
-    }
-
-    public void setProperty(String property) {
-        this.property = property;
     }
 
     public void setDateFilter(DateFilter dateFilter) {
