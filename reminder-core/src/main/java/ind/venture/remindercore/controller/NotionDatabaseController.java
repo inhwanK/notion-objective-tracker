@@ -1,9 +1,9 @@
 package ind.venture.remindercore.controller;
 
-
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.service.NotionDatabaseService;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -11,11 +11,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class NotionReminderController {
+public class NotionDatabaseController {
 
     private final NotionDatabaseService notionDatabaseService;
 
-    public NotionReminderController(NotionDatabaseService notionDatabaseService) {
+    public NotionDatabaseController(NotionDatabaseService notionDatabaseService) {
         this.notionDatabaseService = notionDatabaseService;
     }
 
@@ -33,21 +33,5 @@ public class NotionReminderController {
             @PathVariable("databaseId") String databaseId
     ) {
         return notionDatabaseService.checkHasReminderProperty(apiKey, databaseId);
-    }
-
-    @GetMapping("/{databaseId}/reminder-pages")
-    public Mono<List<Page>> getAllReminderPage(
-            @RequestHeader("Authorization") String apiKey,
-            @PathVariable("databaseId") String databaseId
-    ) {
-        return notionDatabaseService.findAllReminderPage(apiKey, databaseId);
-    }
-
-    @GetMapping("/{databaseId}/today")
-    public Mono<List<Page>> getTodayReminderPage(
-            @RequestHeader("Authorization") String apiKey,
-            @PathVariable("databaseId") String databaseId
-    ) {
-        return notionDatabaseService.findTodayReminderPage(apiKey, databaseId);
     }
 }

@@ -1,15 +1,17 @@
 package ind.venture.remindercore.domain.filter;
 
 public class FilterRequest {
-    private PropertyFilter filter;
 
-    public FilterRequest() {}
+    private QueryFilter filter;
 
-    public FilterRequest(PropertyFilter filter) {
+    public FilterRequest() {
+    }
+
+    public FilterRequest(QueryFilter filter) {
         this.filter = filter;
     }
 
-    public PropertyFilter getFilter() {
+    public QueryFilter getFilter() {
         return filter;
     }
 }
