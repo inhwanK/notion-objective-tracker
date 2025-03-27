@@ -20,9 +20,4 @@ Notion의 기본 리마인더 기능은 반복성과 외부 연동에 다소 어
 
 ### 🧱 기술 스택
 
-- **Language:** Java 17
-- **Framework:** Spring Boot, Spring WebFlux
-- **API 통신:** WebClient (Reactive)
-- **비동기 처리:** Reactor (Mono / Flux)
-- **빌드:** Gradle
-- **기타:** Notion 공식 API 사용
+- Java 17, Spring Boot, Spring WebFlux, WebClient, Reactor, Gradle, Notion API
