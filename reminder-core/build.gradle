@@ -10,7 +10,7 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.1.10'
-    implementation 'com.github.seratch:notion-sdk-jvm-core:1.11.1'
+//    implementation 'com.github.seratch:notion-sdk-jvm-core:1.11.1'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3'
 
     implementation("org.springframework.boot:spring-boot-starter-webflux") // 추후 WAS 제거

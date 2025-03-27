@@ -1,13 +1,9 @@
 package ind.venture.remindercore.controller;
 
 import ind.venture.remindercore.domain.Database;
-import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.service.NotionDatabaseService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api")

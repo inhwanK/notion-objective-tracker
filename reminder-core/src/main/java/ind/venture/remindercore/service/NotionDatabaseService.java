@@ -3,24 +3,23 @@ package ind.venture.remindercore.service;
 
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
-import ind.venture.remindercore.domain.filter.FilterRequest;
 import ind.venture.remindercore.domain.property.DatabaseProperty;
 import ind.venture.remindercore.domain.query.QueryResults;
-import ind.venture.remindercore.util.FilterFactory;
-import notion.api.v1.json.GsonSerializer;
+import ind.venture.remindercore.request.DatabaseRequest;
+import ind.venture.remindercore.util.DatabaseRequestFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 @Service
 public class NotionDatabaseService {
-
-    private GsonSerializer gsonSerializer;
+    
     private final WebClient notionClient;
-    private static final String DATABASE_URI = "/databases/";
+    private static final String DATABASE_URI = "/databases";
 
     public NotionDatabaseService(WebClient notionClient) {
         this.notionClient = notionClient;
@@ -55,35 +54,44 @@ public class NotionDatabaseService {
     }
 
     public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
-        FilterRequest filterRequest = FilterFactory.createNotEmptyFilterRequest();
+        DatabaseRequest databaseRequest = DatabaseRequestFactory.createNotEmptyReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, filterRequest);
+        return findReminderPage(apiKey, databaseId, databaseRequest);
     }
 
     public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
-        FilterRequest filterRequest = FilterFactory.createTodayFilterRequest();
+        DatabaseRequest databaseRequest = DatabaseRequestFactory.createTodayReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, filterRequest);
+        return findReminderPage(apiKey, databaseId, databaseRequest);
     }
 
     public Mono<List<Page>> findWeeklyReminderPage(String apiKey, String databaseId) {
-        FilterRequest filterRequest = FilterFactory.createWeeklyFilterRequest();
+        DatabaseRequest databaseRequest = DatabaseRequestFactory.createWeeklyReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, filterRequest);
+        return findReminderPage(apiKey, databaseId, databaseRequest);
     }
 
     public Mono<List<Page>> findReminderPage(
             String apiKey,
             String databaseId,
-            FilterRequest filterRequest
+            DatabaseRequest databaseRequest
     ) {
         return notionClient.post()
-                .uri(DATABASE_URI + databaseId + "/query")
+                .uri(createUri(databaseId))
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
-                .bodyValue(filterRequest)
+                .bodyValue(databaseRequest)
                 .retrieve()
                 .bodyToMono(QueryResults.class)
                 .map(QueryResults::getResults);
+    }
+
+    public String createUri(String databaseId) {
+        return UriComponentsBuilder
+                .fromUriString(DATABASE_URI)
+                .pathSegment(databaseId)
+                .path("/query")
+                .build()
+                .toUriString();
     }
 }
