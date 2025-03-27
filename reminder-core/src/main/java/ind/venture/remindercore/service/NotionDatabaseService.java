@@ -6,7 +6,6 @@ import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.domain.property.DatabaseProperty;
 import ind.venture.remindercore.domain.query.QueryResults;
 import ind.venture.remindercore.request.DatabaseRequest;
-import ind.venture.remindercore.request.filter.FilterRequest;
 import ind.venture.remindercore.util.DatabaseRequestFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;

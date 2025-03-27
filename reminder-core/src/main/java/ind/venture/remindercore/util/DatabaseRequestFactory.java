@@ -3,7 +3,6 @@ package ind.venture.remindercore.util;
 import ind.venture.remindercore.request.DatabaseRequest;
 import ind.venture.remindercore.request.filter.CompoundFilter;
 import ind.venture.remindercore.request.filter.DateFilter;
-import ind.venture.remindercore.request.filter.FilterRequest;
 import ind.venture.remindercore.request.filter.PropertyFilter;
 
 import java.time.LocalDate;
