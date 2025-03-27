@@ -1,4 +1,4 @@
-package ind.venture.remindercore.domain.filter;
+package ind.venture.remindercore.request.filter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
