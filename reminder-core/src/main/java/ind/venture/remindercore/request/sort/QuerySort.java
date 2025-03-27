@@ -1,34 +1,40 @@
 package ind.venture.remindercore.request.sort;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuerySort {
+    private final String property;
+    private final Direction direction;
 
-    private String property;
-    private String direction;
+    public enum Direction {
+        @JsonProperty("ascending")
+        ASCENDING,
 
-    public QuerySort() {
+        @JsonProperty("descending")
+        DESCENDING
     }
 
-    public QuerySort(String property, String direction) {
+    public QuerySort(String property) {
+        this(property, Direction.ASCENDING);
+    }
+
+    public QuerySort(String property, Direction direction) {
+        if (property == null || property.isBlank()) {
+            throw new IllegalArgumentException("property 필드가 존재하지 않습니다.");
+        }
         this.property = property;
-        this.direction = direction != null ? direction : "ascending";
+        this.direction = direction != null ? direction : Direction.ASCENDING;
     }
 
     public String getProperty() {
         return property;
     }
 
-    public void setProperty(String property) {
-        this.property = property;
-    }
-
     public String getDirection() {
-        return direction;
+        return direction.name().toLowerCase();
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public Direction getDirectionEnum() {
+        return direction;
     }
 }

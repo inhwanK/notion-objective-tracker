@@ -4,6 +4,7 @@ import ind.venture.remindercore.request.DatabaseRequest;
 import ind.venture.remindercore.request.filter.CompoundFilter;
 import ind.venture.remindercore.request.filter.DateFilter;
 import ind.venture.remindercore.request.filter.PropertyFilter;
+import ind.venture.remindercore.request.sort.QuerySort;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -11,37 +12,51 @@ import java.util.List;
 
 public class DatabaseRequestFactory {
 
+    private static final String REMINDER_PROPERTY = "리마인더";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-    public static DatabaseRequest createNotEmptyFilterRequest() {
-
+    public static DatabaseRequest createNotEmptyReminderRequest() {
         PropertyFilter propertyFilter = new PropertyFilter(
-                DateFilter.builder().notEmpty(true).build()
+                DateFilter.builder()
+                        .notEmpty(true)
+                        .build()
         );
-        return new DatabaseRequest(propertyFilter);
+        return new DatabaseRequest(propertyFilter, List.of(createDefaultSortByReminder()));
     }
 
-    public static DatabaseRequest createTodayFilterRequest() {
-
+    public static DatabaseRequest createTodayReminderRequest() {
         PropertyFilter propertyFilter = new PropertyFilter(
-                DateFilter.builder().equals(LocalDate.now().format(DATE_FORMATTER)).build()
+                DateFilter.builder()
+                        .equals(formatDate(LocalDate.now()))
+                        .build()
         );
-        return new DatabaseRequest(propertyFilter);
+        return new DatabaseRequest(propertyFilter, List.of(createDefaultSortByReminder()));
     }
 
-    public static DatabaseRequest createWeeklyFilterRequest() {
+    public static DatabaseRequest createWeeklyReminderRequest() {
         LocalDate today = LocalDate.now();
         LocalDate oneWeekLater = today.plusWeeks(1);
-        return createDateRangeFilterRequest(today, oneWeekLater);
+        return createDateRangeReminderRequest(today, oneWeekLater);
     }
 
-    public static DatabaseRequest createDateRangeFilterRequest(LocalDate start, LocalDate end) {
+    public static DatabaseRequest createDateRangeReminderRequest(LocalDate start, LocalDate end) {
         PropertyFilter startFilter = new PropertyFilter(
-                DateFilter.builder().onOrAfter(start.format(DATE_FORMATTER)).build()
+                DateFilter.builder().onOrAfter(formatDate(start)).build()
         );
         PropertyFilter endFilter = new PropertyFilter(
-                DateFilter.builder().onOrBefore(end.format(DATE_FORMATTER)).build()
+                DateFilter.builder().onOrBefore(formatDate(end)).build()
         );
-        return new DatabaseRequest(CompoundFilter.and(List.of(startFilter, endFilter)));
+
+        CompoundFilter dateRangeFilter = CompoundFilter.and(List.of(startFilter, endFilter));
+
+        return new DatabaseRequest(dateRangeFilter, List.of(createDefaultSortByReminder()));
+    }
+
+    private static String formatDate(LocalDate date) {
+        return date.format(DATE_FORMATTER);
+    }
+
+    private static QuerySort createDefaultSortByReminder() {
+        return new QuerySort(REMINDER_PROPERTY); // 기본 정렬: ascending
     }
 }

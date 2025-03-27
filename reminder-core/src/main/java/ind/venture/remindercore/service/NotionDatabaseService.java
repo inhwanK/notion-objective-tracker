@@ -54,21 +54,21 @@ public class NotionDatabaseService {
     }
 
     public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
-        DatabaseRequest filterRequest = DatabaseRequestFactory.createNotEmptyFilterRequest();
+        DatabaseRequest databaseRequest = DatabaseRequestFactory.createNotEmptyReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, filterRequest);
+        return findReminderPage(apiKey, databaseId, databaseRequest);
     }
 
     public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
-        DatabaseRequest databaseRequest = DatabaseRequestFactory.createTodayFilterRequest();
+        DatabaseRequest databaseRequest = DatabaseRequestFactory.createTodayReminderRequest();
 
         return findReminderPage(apiKey, databaseId, databaseRequest);
     }
 
     public Mono<List<Page>> findWeeklyReminderPage(String apiKey, String databaseId) {
-        DatabaseRequest filterRequest = DatabaseRequestFactory.createWeeklyFilterRequest();
+        DatabaseRequest databaseRequest = DatabaseRequestFactory.createWeeklyReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, filterRequest);
+        return findReminderPage(apiKey, databaseId, databaseRequest);
     }
 
     public Mono<List<Page>> findReminderPage(
