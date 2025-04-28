@@ -17,9 +17,9 @@ import java.util.List;
 
 @Service
 public class NotionDatabaseService {
-    
+
     private final WebClient notionClient;
-    private static final String DATABASE_URI = "/databases";
+    private static final String DATABASE_URI = "databases";
 
     public NotionDatabaseService(WebClient notionClient) {
         this.notionClient = notionClient;
@@ -27,7 +27,10 @@ public class NotionDatabaseService {
 
     public Mono<Database> getDatabaseInfo(String apiKey, String databaseId) {
         return notionClient.get()
-                .uri(DATABASE_URI + databaseId)
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment(DATABASE_URI, databaseId)
+                        .build()
+                )
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
@@ -37,7 +40,10 @@ public class NotionDatabaseService {
 
     public Mono<Boolean> checkHasReminderProperty(String apiKey, String databaseId) {
         return notionClient.get()
-                .uri(DATABASE_URI + databaseId)
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment(DATABASE_URI, databaseId)
+                        .build()
+                )
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
@@ -77,21 +83,15 @@ public class NotionDatabaseService {
             DatabaseRequest databaseRequest
     ) {
         return notionClient.post()
-                .uri(createUri(databaseId))
+                .uri(uriBuilder -> uriBuilder
+                        .pathSegment(DATABASE_URI, databaseId, "query")
+                        .build()
+                )
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
                 .bodyValue(databaseRequest)
                 .retrieve()
                 .bodyToMono(QueryResults.class)
                 .map(QueryResults::getResults);
-    }
-
-    public String createUri(String databaseId) {
-        return UriComponentsBuilder
-                .fromUriString(DATABASE_URI)
-                .pathSegment(databaseId)
-                .path("/query")
-                .build()
-                .toUriString();
     }
 }
