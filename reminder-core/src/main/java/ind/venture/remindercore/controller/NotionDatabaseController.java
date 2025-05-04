@@ -28,6 +28,6 @@ public class NotionDatabaseController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.checkHasReminderProperty(apiKey, databaseId);
+        return notionDatabaseService.checkIsReminderDatabase(apiKey, databaseId);
     }
 }

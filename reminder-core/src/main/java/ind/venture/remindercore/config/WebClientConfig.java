@@ -7,11 +7,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Configuration
-public class NotionClientConfig {
+public class WebClientConfig {
 
 
     @Bean
-    public WebClient notionClient() {
+    public WebClient webClient() {
         return WebClient.builder()
                 .baseUrl("https://api.notion.com/v1/")
                 .defaultHeader("Content-Type", "application/json")
