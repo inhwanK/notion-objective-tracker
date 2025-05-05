@@ -34,6 +34,30 @@ public class Database {
         this.properties = properties;
     }
 
+    public Database(
+            String id,
+            String url,
+            String publicUrl,
+            String createdTime,
+            String lastEditedTime,
+            boolean inline,
+            boolean archived,
+            String requestId,
+            boolean inTrash,
+            Map<String, DatabaseProperty> properties
+    ) {
+        this.id = id;
+        this.url = url;
+        this.publicUrl = publicUrl;
+        this.createdTime = createdTime;
+        this.lastEditedTime = lastEditedTime;
+        this.inline = inline;
+        this.archived = archived;
+        this.requestId = requestId;
+        this.inTrash = inTrash;
+        this.properties = properties;
+    }
+
     public String getId() {
         return id;
     }
@@ -72,5 +96,21 @@ public class Database {
 
     public Map<String, DatabaseProperty> getProperties() {
         return properties;
+    }
+
+    @Override
+    public String toString() {
+        return "Database{" +
+                "id='" + id + '\'' +
+                ", url='" + url + '\'' +
+                ", publicUrl='" + publicUrl + '\'' +
+                ", createdTime='" + createdTime + '\'' +
+                ", lastEditedTime='" + lastEditedTime + '\'' +
+                ", inline=" + inline +
+                ", archived=" + archived +
+                ", requestId='" + requestId + '\'' +
+                ", inTrash=" + inTrash +
+                ", properties=" + properties +
+                '}';
     }
 }
