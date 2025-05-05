@@ -7,9 +7,7 @@ import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.domain.property.DatabaseProperty;
 import ind.venture.remindercore.util.DatabaseRequestFactory;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -24,7 +22,9 @@ public class NotionDatabaseService {
     }
 
     public Mono<Database> getDatabaseInfo(String apiKey, String databaseId) {
-        return notionClient.fetchDatabase(apiKey, databaseId);
+        return notionClient.fetchDatabase(apiKey, databaseId)
+                .doOnNext(db -> log.info("[노션 데이터베이스 정보 요청] {}", db.toString()))
+                .doOnError(error -> log.error("[노션 API 에러] {}", error.getMessage())); // 노션 api 예외 코드 그대로 반환?
     }
 
     public Mono<Boolean> checkIsReminderDatabase(String apiKey, String databaseId) {
