@@ -1,9 +1,8 @@
-package ind.venture.remindercore.servic;
+package ind.venture.remindercore.service;
 
 import ind.venture.remindercore.config.NotionWebClient;
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.property.DatabaseProperty;
-import ind.venture.remindercore.service.NotionDatabaseService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
