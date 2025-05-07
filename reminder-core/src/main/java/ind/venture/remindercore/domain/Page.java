@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import ind.venture.remindercore.domain.property.PageProperty;
 
 import java.util.Map;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Page {
@@ -40,6 +41,18 @@ public class Page {
         this.requestId = requestId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Page page = (Page) o;
+        return Objects.equals(id, page.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
     public String getId() {
         return id;
     }
@@ -70,5 +83,19 @@ public class Page {
 
     public String getRequestId() {
         return requestId;
+    }
+
+    @Override
+    public String toString() {
+        return "Page{" +
+                "id='" + id + '\'' +
+                ", createdTime='" + createdTime + '\'' +
+                ", lastEditedTime='" + lastEditedTime + '\'' +
+                ", archived=" + archived +
+                ", url='" + url + '\'' +
+                ", publicUrl='" + publicUrl + '\'' +
+                ", properties=" + properties +
+                ", requestId='" + requestId + '\'' +
+                '}';
     }
 }

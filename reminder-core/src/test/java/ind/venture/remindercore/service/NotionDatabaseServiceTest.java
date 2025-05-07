@@ -2,7 +2,11 @@ package ind.venture.remindercore.service;
 
 import ind.venture.remindercore.config.NotionWebClient;
 import ind.venture.remindercore.domain.Database;
-import ind.venture.remindercore.domain.property.DatabaseProperty;
+import ind.venture.remindercore.domain.Page;
+import ind.venture.remindercore.domain.property.*;
+import ind.venture.remindercore.util.DateFactory;
+import ind.venture.remindercore.util.PageFactory;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,8 +18,10 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.List;
 import java.util.Map;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -66,7 +72,7 @@ public class NotionDatabaseServiceTest {
         StepVerifier.create(notionDatabaseService.getDatabaseInfo("token", "db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
-                        ex.getStatusCode() == HttpStatus.BAD_REQUEST)
+                                ex.getStatusCode() == HttpStatus.BAD_REQUEST)
                 .verify();
     }
 
@@ -94,5 +100,55 @@ public class NotionDatabaseServiceTest {
                 .verifyComplete();
     }
 
+    @Test
+    void findAllReminderPage_ShouldReturnPage() {
+        // given
+        List<Page> pages = List.of(
+                PageFactory.createBasePage("page-1", "Test Page 1", false, "req-1"),
+                PageFactory.createBasePage("page-2", "Test Page 2", false, "req-2"),
+                PageFactory.createBasePage("page-3", "Test Page 3", false, "req-3"),
+                PageFactory.createBasePage("page-4", "Test Page 4", false, "req-4"),
+                PageFactory.createBasePage("page-5", "Test Page 5", false, "req-5")
+        );
 
+        pages.get(0).getProperties().put("리마인더",
+                PageFactory.createDateProperty("reminder-1", DateFactory.daysFromNowAsIsoDate(2))
+        );
+        pages.get(2).getProperties().put("리마인더",
+                PageFactory.createDateProperty("reminder-3", DateFactory.daysAgoAsIsoDate(1))
+        );
+
+        // when
+        when(notionWebClient.queryDatabase(any(), any(), any()))
+                .thenReturn(Mono.just(List.of(pages.get(0), pages.get(2))));
+
+        Mono<List<Page>> result = notionDatabaseService.findAllReminderPage("test-token", "test-db");
+
+        // then
+        StepVerifier.create(result)
+                .expectNextMatches(filtered ->
+                        filtered.size() == 2 && filtered.containsAll(List.of(pages.get(0), pages.get(2)))
+                )
+                .verifyComplete();
+    }
+
+    void findAllReminderPage_400Error() {
+        Assertions.fail("미구현");
+    }
+
+    void findTodayReminderPage_ShouldReturnPage() {
+        Assertions.fail("미구현");
+    }
+
+    void findTodayReminderPage_400Error() {
+        Assertions.fail("미구현");
+    }
+
+    void findWeeklyReminderPage_ShouldReturnPage() {
+        Assertions.fail("미구현");
+    }
+
+    void findWeeklyReminderPage_400Error() {
+        Assertions.fail("미구현");
+    }
 }

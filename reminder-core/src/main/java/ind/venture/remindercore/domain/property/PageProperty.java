@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -45,7 +46,6 @@ public class PageProperty {
         this.lastEditedTime = lastEditedTime;
     }
 
-
     public String getId() {
         return id;
     }
@@ -80,5 +80,20 @@ public class PageProperty {
 
     public String getLastEditedTime() {
         return lastEditedTime;
+    }
+
+    @Override
+    public String toString() {
+        return "PageProperty{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                ", title=" + title +
+                ", date=" + date +
+                ", url='" + url + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", createdTime='" + createdTime + '\'' +
+                ", lastEditedTime='" + lastEditedTime + '\'' +
+                '}';
     }
 }
