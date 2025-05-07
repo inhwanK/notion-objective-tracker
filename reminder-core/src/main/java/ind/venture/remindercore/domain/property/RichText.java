@@ -25,4 +25,13 @@ public class RichText {
     public String getHref() {
         return href;
     }
+
+    @Override
+    public String toString() {
+        return "RichText{" +
+                "text=" + text +
+                ", plainText='" + plainText + '\'' +
+                ", href='" + href + '\'' +
+                '}';
+    }
 }

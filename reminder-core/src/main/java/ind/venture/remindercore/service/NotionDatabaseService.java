@@ -24,7 +24,7 @@ public class NotionDatabaseService {
     public Mono<Database> getDatabaseInfo(String apiKey, String databaseId) {
         return notionClient.fetchDatabase(apiKey, databaseId)
                 .doOnNext(db -> log.info("[노션 데이터베이스 정보 요청] {}", db.toString()))
-                .doOnError(error -> log.error("[노션 API 에러] {}", error.getMessage())); // 노션 api 예외 코드 그대로 반환?
+                .doOnError(error -> log.error("[노션 API 에러] {}\n {}", error, error.getMessage())); // 노션 api 예외 코드 그대로 반환?
     }
 
     public Mono<Boolean> checkIsReminderDatabase(String apiKey, String databaseId) {
@@ -36,15 +36,19 @@ public class NotionDatabaseService {
     }
 
     public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
-        return notionClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createNotEmptyReminderRequest());
-    }
-
-    public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
-        return notionClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createTodayReminderRequest());
+        return notionClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createNotEmptyReminderRequest())
+                .doOnNext(pages -> {
+                    log.info("[리마인더 페이지 조회 결과] 총 {}건", pages.size());
+                    pages.forEach(page -> log.info("{}", page));
+                });
     }
 
     public Mono<List<Page>> findWeeklyReminderPage(String apiKey, String databaseId) {
         return notionClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createWeeklyReminderRequest());
+    }
+
+    public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
+        return notionClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createTodayReminderRequest());
     }
 
     private boolean hasReminderProperty(Database database) {

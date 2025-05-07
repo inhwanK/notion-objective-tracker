@@ -4,6 +4,7 @@ import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.domain.query.QueryResults;
 import ind.venture.remindercore.request.DatabaseRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -11,6 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+@Slf4j
 @Component
 public class NotionWebClient implements NotionClient {
 
@@ -43,6 +45,9 @@ public class NotionWebClient implements NotionClient {
                 .bodyValue(databaseRequest)
                 .retrieve()
                 .bodyToMono(QueryResults.class)
+                .doOnSubscribe(sub -> log.info("Notion DB 쿼리 요청: databaseId={}, request={}", databaseId, databaseRequest))
+                .doOnNext(result -> log.info("Notion DB 쿼리 응답: {}", result))
+                .doOnError(error -> log.info("Notion DB 쿼리 실패: {}", error.getMessage(), error))
                 .map(QueryResults::getResults);
     }
 }
