@@ -21,7 +21,7 @@ import reactor.test.StepVerifier;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -132,8 +132,22 @@ public class NotionDatabaseServiceTest {
                 .verifyComplete();
     }
 
+    @Test
     void findAllReminderPage_400Error() {
-        Assertions.fail("미구현");
+        // given
+        WebClientResponseException badRequestException = WebClientResponseException.create(
+                400, "Bad Request", null, null, null);
+
+        // when
+        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+                .thenReturn(Mono.error(badRequestException));
+
+        // then
+        StepVerifier.create(notionDatabaseService.findAllReminderPage("token", "db-id"))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof WebClientResponseException ex &&
+                                ex.getStatusCode() == HttpStatus.BAD_REQUEST)
+                .verify();
     }
 
     void findTodayReminderPage_ShouldReturnPage() {
