@@ -1,4 +1,4 @@
-package ind.venture.remindercore.config;
+package ind.venture.remindercore.client;
 
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;

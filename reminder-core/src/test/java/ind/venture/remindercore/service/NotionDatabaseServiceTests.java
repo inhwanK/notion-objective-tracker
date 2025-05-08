@@ -1,6 +1,6 @@
 package ind.venture.remindercore.service;
 
-import ind.venture.remindercore.config.NotionWebClient;
+import ind.venture.remindercore.client.NotionWebClient;
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.domain.property.*;
@@ -25,7 +25,7 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class NotionDatabaseServiceTest {
+public class NotionDatabaseServiceTests {
 
     @InjectMocks
     private NotionDatabaseService notionDatabaseService;
@@ -119,7 +119,7 @@ public class NotionDatabaseServiceTest {
         );
 
         // when
-        when(notionWebClient.queryDatabase(any(), any(), any()))
+        when(notionWebClient.queryDatabase(any(), any(), any())) // TODO DatabaseRequest 필요
                 .thenReturn(Mono.just(List.of(pages.get(0), pages.get(2))));
 
         Mono<List<Page>> result = notionDatabaseService.findAllReminderPage("test-token", "test-db");
@@ -150,19 +150,88 @@ public class NotionDatabaseServiceTest {
                 .verify();
     }
 
+
+    @Test
     void findTodayReminderPage_ShouldReturnPage() {
-        Assertions.fail("미구현");
+        // given
+        Page page1 = PageFactory.createBasePage("page-1", "Today Reminder", false, "req-1");
+        page1.getProperties().put("리마인더", PageFactory.createDateProperty("reminder-1", DateFactory.todayAsIsoDate()));
+
+        Page page2 = PageFactory.createBasePage("page-2", "Past Reminder", false, "req-2");
+        page2.getProperties().put("리마인더", PageFactory.createDateProperty("reminder-2", DateFactory.todayAsIsoDate()));
+
+        List<Page> allPages = List.of(page1, page2);
+
+        // TODO DatabaseRequest 필요
+        when(notionWebClient.queryDatabase(any(), any(), any()))
+                .thenReturn(Mono.just(allPages));
+
+        // when
+        Mono<List<Page>> result = notionDatabaseService.findTodayReminderPage("token", "db-id");
+
+        // then
+        StepVerifier.create(result)
+                .expectNextMatches(pages ->
+                        pages.size() == 2 && pages.containsAll(List.of(page1, page2))
+                )
+                .verifyComplete();
     }
 
+    @Test
     void findTodayReminderPage_400Error() {
-        Assertions.fail("미구현");
+        WebClientResponseException badRequestException = WebClientResponseException.create(
+                400, "Bad Request", null, null, null);
+
+        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+                .thenReturn(Mono.error(badRequestException));
+
+        StepVerifier.create(notionDatabaseService.findTodayReminderPage("token", "db-id"))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof WebClientResponseException ex &&
+                                ex.getStatusCode() == HttpStatus.BAD_REQUEST)
+                .verify();
     }
 
+    @Test
     void findWeeklyReminderPage_ShouldReturnPage() {
+        // given
+        /*
+        Page monday = PageFactory.createBasePage("page-mon", "Weekly Reminder", false, "req-2");
+        monday.getProperties().put("리마인더", PageFactory.createDateProperty("reminder", DateFactory.startOfWeekAsIsoDate()));
+
+        Page sunday = PageFactory.createBasePage("page-sun", "Weekly Reminder", false, "req-3");
+        sunday.getProperties().put("리마인더", PageFactory.createDateProperty("reminder", DateFactory.endOfWeekAsIsoDate()));
+
+        when(notionWebClient.queryDatabase(any(), any(), any()))
+                .thenReturn(Mono.just(List.of(monday, sunday)));
+
+        // when
+        Mono<List<Page>> result = notionDatabaseService.findWeeklyReminderPage("token", "db-id");
+
+        // then
+        StepVerifier.create(result)
+                .expectNextMatches(pages ->
+                        pages.size() == 2 &&
+                                pages.stream().anyMatch(p -> p.getId().equals("page-mon")) &&
+                                pages.stream().anyMatch(p -> p.getId().equals("page-sun")))
+                .verifyComplete();
+        */
         Assertions.fail("미구현");
     }
 
+    @Test
     void findWeeklyReminderPage_400Error() {
+        WebClientResponseException badRequestException = WebClientResponseException.create(
+                400, "Bad Request", null, null, null);
+
+        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+                .thenReturn(Mono.error(badRequestException));
+
+        StepVerifier.create(notionDatabaseService.findWeeklyReminderPage("token", "db-id"))
+                .expectErrorMatches(throwable ->
+                        throwable instanceof WebClientResponseException ex &&
+                                ex.getStatusCode() == HttpStatus.BAD_REQUEST)
+                .verify();
         Assertions.fail("미구현");
     }
 }

@@ -1,7 +1,7 @@
 package ind.venture.remindercore.service;
 
 
-import ind.venture.remindercore.config.NotionClient;
+import ind.venture.remindercore.client.NotionClient;
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
 import ind.venture.remindercore.domain.property.DatabaseProperty;
@@ -24,7 +24,7 @@ public class NotionDatabaseService {
     public Mono<Database> getDatabaseInfo(String apiKey, String databaseId) {
         return notionClient.fetchDatabase(apiKey, databaseId)
                 .doOnNext(db -> log.info("[노션 데이터베이스 정보 요청] {}", db.toString()))
-                .doOnError(error -> log.error("[노션 API 에러] {}\n {}", error, error.getMessage())); // 노션 api 예외 코드 그대로 반환?
+                .doOnError(error -> log.error("[노션 API 에러] {}\n {}", error, error.getMessage()));
     }
 
     public Mono<Boolean> checkIsReminderDatabase(String apiKey, String databaseId) {

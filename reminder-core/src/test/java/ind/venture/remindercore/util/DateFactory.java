@@ -6,15 +6,23 @@ import java.time.LocalDate;
 
 public class DateFactory {
     public static Date daysFromNowAsIsoDate(int days) {
-        return new Date(LocalDate.now().plusDays(days).toString(), null, null);
+        return simpleDate(LocalDate.now().plusDays(days).toString());
     }
 
     public static Date daysAgoAsIsoDate(int days) {
-        return new Date(LocalDate.now().minusDays(days).toString(), null, null);
+        return simpleDate(LocalDate.now().minusDays(days).toString());
     }
 
     public static Date fixedDate(int year, int month, int day) {
-        return new Date(LocalDate.of(year, month, day).toString(), null, null);
+        return simpleDate(LocalDate.of(year, month, day).toString());
+    }
+
+    public static Date todayAsIsoDate() {
+        return simpleDate(LocalDate.now().toString());
+    }
+
+    private static Date simpleDate(String isoDate) {
+        return new Date(isoDate, null, null);
     }
 
 }
