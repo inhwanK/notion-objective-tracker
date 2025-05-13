@@ -3,10 +3,9 @@ package ind.venture.remindercore.service;
 import ind.venture.remindercore.client.NotionWebClient;
 import ind.venture.remindercore.domain.Database;
 import ind.venture.remindercore.domain.Page;
-import ind.venture.remindercore.domain.property.*;
+import ind.venture.remindercore.domain.property.DatabaseProperty;
 import ind.venture.remindercore.util.DateFactory;
 import ind.venture.remindercore.util.PageFactory;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +20,8 @@ import reactor.test.StepVerifier;
 import java.util.List;
 import java.util.Map;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -195,28 +195,25 @@ public class NotionDatabaseServiceTests {
     @Test
     void findWeeklyReminderPage_ShouldReturnPage() {
         // given
-        /*
-        Page monday = PageFactory.createBasePage("page-mon", "Weekly Reminder", false, "req-2");
-        monday.getProperties().put("리마인더", PageFactory.createDateProperty("reminder", DateFactory.startOfWeekAsIsoDate()));
+        Page page1 = PageFactory.createBasePage("page1", "Weekly Reminder", false, "req-1");
+        page1.getProperties().put("리마인더", PageFactory.createDateProperty("reminder", DateFactory.daysFromNowAsIsoDate(8)));
 
-        Page sunday = PageFactory.createBasePage("page-sun", "Weekly Reminder", false, "req-3");
-        sunday.getProperties().put("리마인더", PageFactory.createDateProperty("reminder", DateFactory.endOfWeekAsIsoDate()));
+        Page page2 = PageFactory.createBasePage("page2", "Weekly Reminder", false, "req-2");
+        page2.getProperties().put("리마인더", PageFactory.createDateProperty("reminder", DateFactory.daysFromNowAsIsoDate(7)));
 
-        when(notionWebClient.queryDatabase(any(), any(), any()))
-                .thenReturn(Mono.just(List.of(monday, sunday)));
+        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+                .thenReturn(Mono.just(List.of(page2)));
 
         // when
+        // TODO DatabaseRequest 필요
         Mono<List<Page>> result = notionDatabaseService.findWeeklyReminderPage("token", "db-id");
 
         // then
         StepVerifier.create(result)
                 .expectNextMatches(pages ->
-                        pages.size() == 2 &&
-                                pages.stream().anyMatch(p -> p.getId().equals("page-mon")) &&
-                                pages.stream().anyMatch(p -> p.getId().equals("page-sun")))
+                        pages.size() == 1 &&
+                                pages.contains(page2))
                 .verifyComplete();
-        */
-        Assertions.fail("미구현");
     }
 
     @Test
@@ -232,6 +229,5 @@ public class NotionDatabaseServiceTests {
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)
                 .verify();
-        Assertions.fail("미구현");
     }
 }
