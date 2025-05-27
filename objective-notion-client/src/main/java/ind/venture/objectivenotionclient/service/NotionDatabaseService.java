@@ -1,12 +1,12 @@
-package ind.venture.objectivenotion.service;
+package ind.venture.objectivenotionclient.service;
 
 
 import ind.venture.objectivenotion.model.database.Database;
-import ind.venture.objectivenotion.model.page.Page;
 import ind.venture.objectivenotion.model.database.DatabaseProperty;
 import ind.venture.objectivenotion.model.database.QueryResults;
-import ind.venture.objectivenotion.request.DatabaseRequest;
-import ind.venture.objectivenotion.util.DatabaseRequestFactory;
+import ind.venture.objectivenotion.model.page.Page;
+import ind.venture.objectivenotion.request.QueryDatabaseRequest;
+import ind.venture.objectivenotionclient.util.DatabaseRequestFactory;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -59,27 +59,27 @@ public class NotionDatabaseService {
     }
 
     public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
-        DatabaseRequest databaseRequest = DatabaseRequestFactory.createNotEmptyReminderRequest();
+        QueryDatabaseRequest queryDatabaseRequest = DatabaseRequestFactory.createNotEmptyReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, databaseRequest);
+        return findReminderPage(apiKey, databaseId, queryDatabaseRequest);
     }
 
     public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
-        DatabaseRequest databaseRequest = DatabaseRequestFactory.createTodayReminderRequest();
+        QueryDatabaseRequest queryDatabaseRequest = DatabaseRequestFactory.createTodayReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, databaseRequest);
+        return findReminderPage(apiKey, databaseId, queryDatabaseRequest);
     }
 
     public Mono<List<Page>> findWeeklyReminderPage(String apiKey, String databaseId) {
-        DatabaseRequest databaseRequest = DatabaseRequestFactory.createWeeklyReminderRequest();
+        QueryDatabaseRequest queryDatabaseRequest = DatabaseRequestFactory.createWeeklyReminderRequest();
 
-        return findReminderPage(apiKey, databaseId, databaseRequest);
+        return findReminderPage(apiKey, databaseId, queryDatabaseRequest);
     }
 
     public Mono<List<Page>> findReminderPage(
             String apiKey,
             String databaseId,
-            DatabaseRequest databaseRequest
+            QueryDatabaseRequest queryDatabaseRequest
     ) {
         return notionClient.post()
                 .uri(uriBuilder -> uriBuilder
@@ -88,7 +88,7 @@ public class NotionDatabaseService {
                 )
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
-                .bodyValue(databaseRequest)
+                .bodyValue(queryDatabaseRequest)
                 .retrieve()
                 .bodyToMono(QueryResults.class)
                 .map(QueryResults::getResults);

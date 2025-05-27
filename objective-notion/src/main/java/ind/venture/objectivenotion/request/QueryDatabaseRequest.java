@@ -8,21 +8,21 @@ import ind.venture.objectivenotion.request.common.Pagination;
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DatabaseRequest implements Pagination {
+public class QueryDatabaseRequest implements Pagination {
 
     private QueryTopLevelFilter filter;
     private List<QuerySort> sorts;
     private String startCursor;
     private Integer pageSize;
 
-    public DatabaseRequest() {
+    public QueryDatabaseRequest() {
     }
 
-    public DatabaseRequest(QueryTopLevelFilter filter, List<QuerySort> sorts) {
+    public QueryDatabaseRequest(QueryTopLevelFilter filter, List<QuerySort> sorts) {
         this(filter, sorts, null, null);
     }
 
-    public DatabaseRequest(QueryTopLevelFilter filter, List<QuerySort> sorts, String startCursor, Integer pageSize) {
+    public QueryDatabaseRequest(QueryTopLevelFilter filter, List<QuerySort> sorts, String startCursor, Integer pageSize) {
         this.filter = filter;
         this.sorts = sorts;
         this.startCursor = startCursor;

@@ -1,3 +1,5 @@
 rootProject.name = 'notion-objective-tracker'
 
 include 'objective-notion'
+include 'objective-notion-client'
+

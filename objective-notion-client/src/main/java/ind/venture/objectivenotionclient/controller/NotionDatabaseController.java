@@ -1,7 +1,7 @@
-package ind.venture.objectivenotion.controller;
+package ind.venture.objectivenotionclient.controller;
 
 import ind.venture.objectivenotion.model.database.Database;
-import ind.venture.objectivenotion.service.NotionDatabaseService;
+import ind.venture.objectivenotionclient.service.NotionDatabaseService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 

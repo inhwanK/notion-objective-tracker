@@ -1,4 +1,4 @@
-package ind.venture.objectivenotion.config;
+package ind.venture.objectivenotionclient.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
