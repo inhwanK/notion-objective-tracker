@@ -5,6 +5,15 @@ public class Date {
     private String end;
     private String timeZone;
 
+    public Date() {
+    }
+
+    public Date(String start, String end, String timeZone) {
+        this.start = start;
+        this.end = end;
+        this.timeZone = timeZone;
+    }
+
     public String getStart() {
         return start;
     }
@@ -27,5 +36,14 @@ public class Date {
 
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
+    }
+
+    @Override
+    public String toString() {
+        return "Date{" +
+                "start='" + start + '\'' +
+                ", end='" + end + '\'' +
+                ", timeZone='" + timeZone + '\'' +
+                '}';
     }
 }

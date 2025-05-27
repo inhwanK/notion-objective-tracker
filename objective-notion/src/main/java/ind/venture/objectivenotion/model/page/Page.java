@@ -5,16 +5,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import ind.venture.objectivenotion.model.page.property.PageProperty;
 
 import java.util.Map;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Page {
-
     private String id;
     private String createdTime;
     private String lastEditedTime;
+    private boolean archived;
     private String url;
     private String publicUrl;
-    private boolean archived;
     private Map<String, PageProperty> properties;
     private String requestId;
     private boolean inTrash;
@@ -26,12 +26,12 @@ public class Page {
             String id,
             String createdTime,
             String lastEditedTime,
+            boolean archived,
             String url,
             String publicUrl,
-            boolean archived,
             Map<String, PageProperty> properties,
-            String requestId,
-            boolean inTrash
+            String requestId
+
     ) {
         this.id = id;
         this.createdTime = createdTime;
@@ -41,7 +41,18 @@ public class Page {
         this.archived = archived;
         this.properties = properties;
         this.requestId = requestId;
-        this.inTrash = inTrash;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Page page = (Page) o;
+        return Objects.equals(id, page.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     public String getId() {
@@ -78,5 +89,19 @@ public class Page {
 
     public boolean isInTrash() {
         return inTrash;
+    }
+
+    @Override
+    public String toString() {
+        return "Page{" +
+                "id='" + id + '\'' +
+                ", createdTime='" + createdTime + '\'' +
+                ", lastEditedTime='" + lastEditedTime + '\'' +
+                ", archived=" + archived +
+                ", url='" + url + '\'' +
+                ", publicUrl='" + publicUrl + '\'' +
+                ", properties=" + properties +
+                ", requestId='" + requestId + '\'' +
+                '}';
     }
 }
