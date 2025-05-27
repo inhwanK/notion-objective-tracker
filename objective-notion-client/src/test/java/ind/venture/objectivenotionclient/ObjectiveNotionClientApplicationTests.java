@@ -1,13 +1,12 @@
-package ind.venture.objectivenotion;
+package ind.venture.objectivenotionclient;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ObjectiveNotionApplicationTests {
+public class ObjectiveNotionClientApplicationTests {
 
     @Test
     void contextLoads() {
     }
-
 }
