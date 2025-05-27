@@ -1,4 +1,4 @@
-## Notion Objective Tracker (구: Notion Reminder Automation)
+## Notion Objective Tracker
 
 📅 Notion을 활용한 목표 관리와 리마인더 등 자동화를 지원하는 백엔드 시스템입니다.
 
