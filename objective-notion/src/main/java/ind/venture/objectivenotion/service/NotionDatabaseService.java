@@ -1,10 +1,10 @@
 package ind.venture.objectivenotion.service;
 
 
-import ind.venture.objectivenotion.domain.Database;
-import ind.venture.objectivenotion.domain.Page;
-import ind.venture.objectivenotion.domain.property.DatabaseProperty;
-import ind.venture.objectivenotion.domain.query.QueryResults;
+import ind.venture.objectivenotion.model.database.Database;
+import ind.venture.objectivenotion.model.page.Page;
+import ind.venture.objectivenotion.model.database.DatabaseProperty;
+import ind.venture.objectivenotion.model.database.QueryResults;
 import ind.venture.objectivenotion.request.DatabaseRequest;
 import ind.venture.objectivenotion.util.DatabaseRequestFactory;
 import org.springframework.http.MediaType;

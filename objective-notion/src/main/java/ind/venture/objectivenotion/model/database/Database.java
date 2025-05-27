@@ -1,7 +1,6 @@
-package ind.venture.objectivenotion.domain;
+package ind.venture.objectivenotion.model.database;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import ind.venture.objectivenotion.domain.property.DatabaseProperty;
 
 import java.util.Map;
 

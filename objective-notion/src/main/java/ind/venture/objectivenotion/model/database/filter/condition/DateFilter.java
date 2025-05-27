@@ -1,4 +1,4 @@
-package ind.venture.objectivenotion.request.filter;
+package ind.venture.objectivenotion.model.database.filter.condition;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;

@@ -1,4 +1,4 @@
-package ind.venture.objectivenotion.domain.property;
+package ind.venture.objectivenotion.model.page.property;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,6 +11,9 @@ public class PageProperty {
     private String id;
     private String type;
     private List<RichText> title;
+    private List<RichText> richText;
+//    private DatabaseProperty select;
+//    private DatabaseProperty status;
     private Date date;
     private String url;
     private String phoneNumber;
@@ -82,3 +85,4 @@ public class PageProperty {
         return lastEditedTime;
     }
 }
+

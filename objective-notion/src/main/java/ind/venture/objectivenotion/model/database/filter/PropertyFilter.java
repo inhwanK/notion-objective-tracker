@@ -1,8 +1,9 @@
-package ind.venture.objectivenotion.request.filter;
+package ind.venture.objectivenotion.model.database.filter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ind.venture.objectivenotion.model.database.filter.condition.DateFilter;
 
-public class PropertyFilter implements QueryFilter {
+public class PropertyFilter implements QueryTopLevelFilter, CompoundFilterElement {
     private static final String property = "리마인더";
     @JsonProperty("date")
     private DateFilter dateFilter;

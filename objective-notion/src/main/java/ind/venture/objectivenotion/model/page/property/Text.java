@@ -1,4 +1,4 @@
-package ind.venture.objectivenotion.domain.property;
+package ind.venture.objectivenotion.model.page.property;
 
 public class Text {
     private String content;

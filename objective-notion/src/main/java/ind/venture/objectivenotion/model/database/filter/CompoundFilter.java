@@ -1,8 +1,8 @@
-package ind.venture.objectivenotion.request.filter;
+package ind.venture.objectivenotion.model.database.filter;
 
 import java.util.List;
 
-public class CompoundFilter implements QueryFilter {
+public class CompoundFilter implements QueryTopLevelFilter, CompoundFilterElement {
     private List<PropertyFilter> or;
     private List<PropertyFilter> and;
 

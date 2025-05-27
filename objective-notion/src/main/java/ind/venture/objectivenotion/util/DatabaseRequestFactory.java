@@ -1,10 +1,10 @@
 package ind.venture.objectivenotion.util;
 
 import ind.venture.objectivenotion.request.DatabaseRequest;
-import ind.venture.objectivenotion.request.filter.CompoundFilter;
-import ind.venture.objectivenotion.request.filter.DateFilter;
-import ind.venture.objectivenotion.request.filter.PropertyFilter;
-import ind.venture.objectivenotion.request.sort.QuerySort;
+import ind.venture.objectivenotion.model.database.filter.CompoundFilter;
+import ind.venture.objectivenotion.model.database.filter.condition.DateFilter;
+import ind.venture.objectivenotion.model.database.filter.PropertyFilter;
+import ind.venture.objectivenotion.model.database.sort.QuerySort;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

@@ -1,46 +1,51 @@
 package ind.venture.objectivenotion.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import ind.venture.objectivenotion.request.filter.QueryFilter;
-import ind.venture.objectivenotion.request.sort.QuerySort;
+import ind.venture.objectivenotion.model.database.filter.QueryTopLevelFilter;
+import ind.venture.objectivenotion.model.database.sort.QuerySort;
+import ind.venture.objectivenotion.request.common.Pagination;
 
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DatabaseRequest {
+public class DatabaseRequest implements Pagination {
 
-    private QueryFilter filter;
+    private QueryTopLevelFilter filter;
     private List<QuerySort> sorts;
+    private String startCursor;
+    private Integer pageSize;
 
     public DatabaseRequest() {
     }
 
-    public DatabaseRequest(QueryFilter filter) {
-        this.filter = filter;
+    public DatabaseRequest(QueryTopLevelFilter filter, List<QuerySort> sorts) {
+        this(filter, sorts, null, null);
     }
 
-    public DatabaseRequest(List<QuerySort> sorts) {
-        this.sorts = sorts;
-    }
-
-    public DatabaseRequest(QueryFilter filter, List<QuerySort> sorts) {
+    public DatabaseRequest(QueryTopLevelFilter filter, List<QuerySort> sorts, String startCursor, Integer pageSize) {
         this.filter = filter;
         this.sorts = sorts;
+        this.startCursor = startCursor;
+        this.pageSize = pageSize;
     }
 
-    public QueryFilter getFilter() {
+    public QueryTopLevelFilter getFilter() {
         return filter;
-    }
-
-    public void setFilter(QueryFilter filter) {
-        this.filter = filter;
     }
 
     public List<QuerySort> getSorts() {
         return sorts;
     }
 
-    public void setSorts(List<QuerySort> sorts) {
-        this.sorts = sorts;
+    @Override
+    public String getStartCursor() {
+        return startCursor;
     }
+
+
+    @Override
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
 }

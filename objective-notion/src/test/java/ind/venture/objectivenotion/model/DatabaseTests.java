@@ -1,7 +1,8 @@
-package ind.venture.objectivenotion.domain;
+package ind.venture.objectivenotion.model;
 
 
-import ind.venture.objectivenotion.domain.property.DatabaseProperty;
+import ind.venture.objectivenotion.model.database.Database;
+import ind.venture.objectivenotion.model.database.DatabaseProperty;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
