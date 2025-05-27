@@ -1,10 +1,11 @@
-package ind.venture.remindercore.domain;
+package ind.venture.objectivenotion.model.page;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import ind.venture.objectivenotion.model.page.property.PageProperty;
 
 import java.util.Map;
+import java.util.Objects;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Page {
@@ -28,21 +29,18 @@ public class Page {
             boolean archived,
             String url,
             String publicUrl,
-            boolean archived,
             Map<String, PageProperty> properties,
-            String requestId,
-            boolean inTrash
+            String requestId
+
     ) {
         this.id = id;
         this.createdTime = createdTime;
         this.lastEditedTime = lastEditedTime;
-        this.archived = archived;
         this.url = url;
         this.publicUrl = publicUrl;
         this.archived = archived;
         this.properties = properties;
         this.requestId = requestId;
-        this.inTrash = inTrash;
     }
 
     @Override

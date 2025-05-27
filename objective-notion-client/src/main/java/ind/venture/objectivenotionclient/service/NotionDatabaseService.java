@@ -1,15 +1,13 @@
-package ind.venture.remindercore.service;
+package ind.venture.objectivenotionclient.service;
 
 
 import ind.venture.objectivenotion.model.database.Database;
 import ind.venture.objectivenotion.model.database.DatabaseProperty;
-import ind.venture.objectivenotion.model.database.QueryResults;
 import ind.venture.objectivenotion.model.page.Page;
-import ind.venture.objectivenotion.request.QueryDatabaseRequest;
+import ind.venture.objectivenotionclient.client.NotionClient;
 import ind.venture.objectivenotionclient.util.DatabaseRequestFactory;
-import org.springframework.http.MediaType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;

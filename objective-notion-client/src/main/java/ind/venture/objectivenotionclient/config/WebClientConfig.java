@@ -1,6 +1,5 @@
-package ind.venture.remindercore.config;
+package ind.venture.objectivenotionclient.config;
 
-import ind.venture.remindercore.response.NotionErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,14 +49,14 @@ public class WebClientConfig {
     ) {
         return response.bodyToMono(NotionErrorResponse.class)
                 .flatMap(error -> {
-                    log.error("Notion API Error | status={} | code={} | message={} | requestId={} | uri={}",
-                            error.getStatus(),
-                            error.getCode(),
-                            error.getMessage(),
-                            error.getRequestId(),
-                            request.url());
+//                    log.error("Notion API Error | status={} | code={} | message={} | requestId={} | uri={}",
+//                            error.getStatus(),
+//                            error.getCode(),
+//                            error.getMessage(),
+//                            error.getRequestId(),
+//                            request.url());
 
-                    return Mono.error(new RuntimeException("Notion API Error: " + error.getMessage()));
+                    return Mono.error(new RuntimeException("Notion API Error: "/* + error.getMessage()*/));
                 });
     }
 }
