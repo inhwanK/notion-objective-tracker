@@ -33,4 +33,13 @@ public class DatabaseProperty {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "DatabaseProperty{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

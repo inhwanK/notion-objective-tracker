@@ -34,7 +34,8 @@ public class Database {
     }
 
     public Database(
-            String id, String url,
+            String id,
+            String url,
             String publicUrl,
             String createdTime,
             String lastEditedTime,
@@ -94,5 +95,21 @@ public class Database {
 
     public Map<String, DatabaseProperty> getProperties() {
         return properties;
+    }
+
+    @Override
+    public String toString() {
+        return "Database{" +
+                "id='" + id + '\'' +
+                ", url='" + url + '\'' +
+                ", publicUrl='" + publicUrl + '\'' +
+                ", createdTime='" + createdTime + '\'' +
+                ", lastEditedTime='" + lastEditedTime + '\'' +
+                ", inline=" + inline +
+                ", archived=" + archived +
+                ", requestId='" + requestId + '\'' +
+                ", inTrash=" + inTrash +
+                ", properties=" + properties +
+                '}';
     }
 }
