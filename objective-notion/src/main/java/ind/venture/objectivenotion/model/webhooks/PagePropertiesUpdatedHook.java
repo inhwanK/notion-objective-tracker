@@ -77,4 +77,22 @@ public class PagePropertiesUpdatedHook {
     public Data getData() {
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "PagePropertiesUpdatedHook{" +
+                "id='" + id + '\'' +
+                ", timestamp=" + timestamp +
+                ", workspaceId='" + workspaceId + '\'' +
+                ", workspaceName='" + workspaceName + '\'' +
+                ", subscriptionId='" + subscriptionId + '\'' +
+                ", integrationId='" + integrationId + '\'' +
+                ", type='" + type + '\'' +
+                ", authors=" + authors +
+                ", accessibleBy=" + accessibleBy +
+                ", attemptNumber=" + attemptNumber +
+                ", entity=" + entity +
+                ", data=" + data +
+                '}';
+    }
 }

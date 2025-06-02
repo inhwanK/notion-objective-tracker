@@ -14,4 +14,12 @@ public class Data {
     public List<String> getUpdatedProperties() {
         return updatedProperties;
     }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "parent=" + parent +
+                ", updatedProperties=" + updatedProperties +
+                '}';
+    }
 }

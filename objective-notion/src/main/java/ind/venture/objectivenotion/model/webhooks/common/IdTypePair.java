@@ -11,4 +11,12 @@ public class IdTypePair {
     public String getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "IdTypePair{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }
