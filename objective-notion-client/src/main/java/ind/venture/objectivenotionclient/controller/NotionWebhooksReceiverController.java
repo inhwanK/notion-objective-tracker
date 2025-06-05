@@ -14,4 +14,10 @@ public class NotionWebhooksReceiverController {
         log.info("pagePropertiesUpdate: {}", pagePropertiesUpdate);
         return;
     }
+
+    @GetMapping("/healthy")
+    public String healthy() {
+        log.info("healthy check");
+        return "ok";
+    }
 }
