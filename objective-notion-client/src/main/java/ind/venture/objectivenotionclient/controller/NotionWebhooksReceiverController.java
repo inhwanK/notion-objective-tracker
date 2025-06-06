@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/webhooks")
 public class NotionWebhooksReceiverController {
 
-    @PostMapping("/page/properties-update")
+    @PostMapping("/event")
     public void propertiesUpdate(@RequestBody NotionWebhookEventDto notionWebhookEventDto) {
         log.info("notionWebhookEventDto: {}", notionWebhookEventDto);
         return;
