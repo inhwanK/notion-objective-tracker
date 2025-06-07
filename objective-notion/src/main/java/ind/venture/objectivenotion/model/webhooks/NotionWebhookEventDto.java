@@ -80,7 +80,7 @@ public class NotionWebhookEventDto {
 
     @Override
     public String toString() {
-        return "PagePropertiesUpdatedHook{" +
+        return "NotionWebhookEventDto{" +
                 "id='" + id + '\'' +
                 ", timestamp=" + timestamp +
                 ", workspaceId='" + workspaceId + '\'' +
