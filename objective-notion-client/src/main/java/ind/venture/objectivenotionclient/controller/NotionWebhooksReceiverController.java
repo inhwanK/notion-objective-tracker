@@ -1,9 +1,8 @@
 package ind.venture.objectivenotionclient.controller;
 
+import ind.venture.objectivenotion.model.webhooks.NotionWebhookEventDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -12,11 +11,9 @@ public class NotionWebhooksReceiverController {
 
     @PostMapping("/webhook/event")
     public void propertiesUpdate(
-            @RequestBody Map<String, String> data
-//            @RequestBody NotionWebhookEventDto notionWebhookEventDto
+            @RequestBody NotionWebhookEventDto notionWebhookEventDto
     ) {
-//        log.info("notionWebhookEventDto: {}", notionWebhookEventDto);
-        log.info("Received verification token: {}", data.get("verification_token"));
+        log.info("notionWebhookEventDto: {}", notionWebhookEventDto);
         return;
     }
 
