@@ -1,17 +1,19 @@
 package ind.venture.objectivenotionclient.controller;
 
-import ind.venture.objectivenotion.model.webhooks.PagePropertiesUpdatedHook;
+import ind.venture.objectivenotion.model.webhooks.NotionWebhookEventDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/webhooks")
+@RequestMapping("/api")
 public class NotionWebhooksReceiverController {
 
-    @PostMapping("/page/properties-update")
-    public void propertiesUpdate(@RequestBody PagePropertiesUpdatedHook pagePropertiesUpdate) {
-        log.info("pagePropertiesUpdate: {}", pagePropertiesUpdate);
+    @PostMapping("/webhook/event")
+    public void propertiesUpdate(
+            @RequestBody NotionWebhookEventDto notionWebhookEventDto
+    ) {
+        log.info("notionWebhookEventDto: {}", notionWebhookEventDto);
         return;
     }
 

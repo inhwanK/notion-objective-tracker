@@ -9,7 +9,7 @@ import ind.venture.objectivenotion.model.webhooks.common.Entity;
 import java.time.Instant;
 import java.util.List;
 
-public class PagePropertiesUpdatedHook {
+public class NotionWebhookEventDto {
     private String id;
     private Instant timestamp;
     @JsonProperty("workspace_id")
@@ -29,7 +29,7 @@ public class PagePropertiesUpdatedHook {
     private Entity entity;
     private Data data;
 
-
+    
     public String getId() {
         return id;
     }
