@@ -2,7 +2,7 @@ package ind.venture.objectivenotionclient.controller;
 
 
 import ind.venture.objectivenotion.model.page.Page;
-import ind.venture.objectivenotionclient.service.NotionDatabaseService;
+import ind.venture.objectivenotionclient.service.NotionService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -12,10 +12,10 @@ import java.util.List;
 @RequestMapping("/api")
 public class ReminderController {
 
-    private final NotionDatabaseService notionDatabaseService;
+    private final NotionService notionService;
 
-    public ReminderController(NotionDatabaseService notionDatabaseService) {
-        this.notionDatabaseService = notionDatabaseService;
+    public ReminderController(NotionService notionService) {
+        this.notionService = notionService;
     }
 
     @GetMapping("/{databaseId}/reminder-pages")
@@ -23,7 +23,7 @@ public class ReminderController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.findAllReminderPage(apiKey, databaseId);
+        return notionService.findAllReminderPage(apiKey, databaseId);
     }
 
     @GetMapping("/{databaseId}/today")
@@ -31,7 +31,7 @@ public class ReminderController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.findTodayReminderPage(apiKey, databaseId);
+        return notionService.findTodayReminderPage(apiKey, databaseId);
     }
 
     @GetMapping("/{databaseId}/weekly")
@@ -39,7 +39,7 @@ public class ReminderController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.findWeeklyReminderPage(apiKey, databaseId);
+        return notionService.findWeeklyReminderPage(apiKey, databaseId);
     }
 
 }

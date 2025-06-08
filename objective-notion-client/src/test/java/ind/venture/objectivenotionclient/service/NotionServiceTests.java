@@ -26,17 +26,17 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class NotionDatabaseServiceTests {
+public class NotionServiceTests {
 
     @InjectMocks
-    private NotionDatabaseService notionDatabaseService;
+    private NotionService notionService;
 
     @Mock
     private NotionWebClient notionWebClient;
 
     @BeforeEach
     public void setUp() {
-        notionDatabaseService = new NotionDatabaseService(notionWebClient);
+        notionService = new NotionService(notionWebClient);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class NotionDatabaseServiceTests {
         when(notionWebClient.fetchDatabase("token", "db-id"))
                 .thenReturn(Mono.just(db));
 
-        StepVerifier.create(notionDatabaseService.getDatabaseInfo("token", "db-id"))
+        StepVerifier.create(notionService.getDatabaseInfo("token", "db-id"))
                 .expectNext(db)
                 .verifyComplete();
     }
@@ -70,7 +70,7 @@ public class NotionDatabaseServiceTests {
         when(notionWebClient.fetchDatabase("token", "db-id"))
                 .thenReturn(Mono.error(badRequestException));
 
-        StepVerifier.create(notionDatabaseService.getDatabaseInfo("token", "db-id"))
+        StepVerifier.create(notionService.getDatabaseInfo("token", "db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)
@@ -84,7 +84,7 @@ public class NotionDatabaseServiceTests {
         when(notionWebClient.fetchDatabase("token", "db123"))
                 .thenReturn(Mono.just(db));
 
-        StepVerifier.create(notionDatabaseService.checkIsReminderDatabase("token", "db123"))
+        StepVerifier.create(notionService.checkIsReminderDatabase("token", "db123"))
                 .expectNext(true)
                 .verifyComplete();
     }
@@ -96,7 +96,7 @@ public class NotionDatabaseServiceTests {
         when(notionWebClient.fetchDatabase("token", "db123"))
                 .thenReturn(Mono.just(db));
 
-        StepVerifier.create(notionDatabaseService.checkIsReminderDatabase("token", "db123"))
+        StepVerifier.create(notionService.checkIsReminderDatabase("token", "db123"))
                 .expectNext(false)
                 .verifyComplete();
     }
@@ -123,7 +123,7 @@ public class NotionDatabaseServiceTests {
         when(notionWebClient.queryDatabase(any(), any(), any())) // TODO DatabaseRequest 필요
                 .thenReturn(Mono.just(List.of(pages.get(0), pages.get(2))));
 
-        Mono<List<Page>> result = notionDatabaseService.findAllReminderPage("test-token", "test-db");
+        Mono<List<Page>> result = notionService.findAllReminderPage("test-token", "test-db");
 
         // then
         StepVerifier.create(result)
@@ -144,7 +144,7 @@ public class NotionDatabaseServiceTests {
                 .thenReturn(Mono.error(badRequestException));
 
         // then
-        StepVerifier.create(notionDatabaseService.findAllReminderPage("token", "db-id"))
+        StepVerifier.create(notionService.findAllReminderPage("token", "db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)
@@ -168,7 +168,7 @@ public class NotionDatabaseServiceTests {
                 .thenReturn(Mono.just(allPages));
 
         // when
-        Mono<List<Page>> result = notionDatabaseService.findTodayReminderPage("token", "db-id");
+        Mono<List<Page>> result = notionService.findTodayReminderPage("token", "db-id");
 
         // then
         StepVerifier.create(result)
@@ -186,7 +186,7 @@ public class NotionDatabaseServiceTests {
         when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
                 .thenReturn(Mono.error(badRequestException));
 
-        StepVerifier.create(notionDatabaseService.findTodayReminderPage("token", "db-id"))
+        StepVerifier.create(notionService.findTodayReminderPage("token", "db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)
@@ -207,7 +207,7 @@ public class NotionDatabaseServiceTests {
 
         // when
         // TODO DatabaseRequest 필요
-        Mono<List<Page>> result = notionDatabaseService.findWeeklyReminderPage("token", "db-id");
+        Mono<List<Page>> result = notionService.findWeeklyReminderPage("token", "db-id");
 
         // then
         StepVerifier.create(result)
@@ -225,7 +225,7 @@ public class NotionDatabaseServiceTests {
         when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
                 .thenReturn(Mono.error(badRequestException));
 
-        StepVerifier.create(notionDatabaseService.findWeeklyReminderPage("token", "db-id"))
+        StepVerifier.create(notionService.findWeeklyReminderPage("token", "db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)

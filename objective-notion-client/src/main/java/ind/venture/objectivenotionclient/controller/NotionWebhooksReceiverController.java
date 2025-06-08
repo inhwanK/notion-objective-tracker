@@ -14,7 +14,6 @@ public class NotionWebhooksReceiverController {
             @RequestBody NotionWebhookEventDto notionWebhookEventDto
     ) {
         log.info("notionWebhookEventDto: {}", notionWebhookEventDto);
-
         return;
     }
 
