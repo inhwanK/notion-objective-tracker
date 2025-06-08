@@ -20,6 +20,7 @@ public class NotionWebClient implements NotionClient {
 
     private final WebClient webClient;
     private static final String DATABASE_URI = "databases";
+    private static final String PAGE_URI = "pages";
 
     public NotionWebClient(WebClient webClient) {
         this.webClient = webClient;
@@ -28,17 +29,12 @@ public class NotionWebClient implements NotionClient {
     @Override
     public Mono<Database> fetchDatabase(String apiKey, String databaseId) {
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment(DATABASE_URI, databaseId)
-                        .build()
-                )
+                .uri(uriBuilder -> uriBuilder.pathSegment(DATABASE_URI, databaseId).build())
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
                 .bodyToMono(Database.class);
     }
-
-
 
     @Override
     public Mono<List<Page>> queryDatabase(String apiKey, String databaseId, QueryDatabaseRequest databaseRequest) {
@@ -49,9 +45,16 @@ public class NotionWebClient implements NotionClient {
                 .bodyValue(databaseRequest)
                 .retrieve()
                 .bodyToMono(QueryResults.class)
-                .doOnSubscribe(sub -> log.info("Notion DB 쿼리 요청: databaseId={}, request={}", databaseId, databaseRequest))
-                .doOnNext(result -> log.info("Notion DB 쿼리 응답: {}", result))
-                .doOnError(error -> log.info("Notion DB 쿼리 실패: {}", error.getMessage(), error))
                 .map(QueryResults::getResults);
+    }
+
+    @Override
+    public Mono<Page> fetchPage(String apiKey, String pageId) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI, pageId).build())
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + apiKey)
+                .retrieve()
+                .bodyToMono(Page.class);
     }
 }

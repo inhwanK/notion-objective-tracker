@@ -10,4 +10,6 @@ import java.util.List;
 public interface NotionClient {
     Mono<Database> fetchDatabase(String apiKey, String databaseId);
     Mono<List<Page>> queryDatabase(String apiKey, String databaseId, QueryDatabaseRequest databaseRequest);
+    Mono<Page> fetchPage(String apiKey, String pageId);
+
 }
