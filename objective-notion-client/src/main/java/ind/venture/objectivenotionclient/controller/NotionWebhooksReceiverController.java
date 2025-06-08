@@ -17,9 +17,4 @@ public class NotionWebhooksReceiverController {
         return;
     }
 
-    @GetMapping("/healthy")
-    public String healthy() {
-        log.info("healthy check");
-        return "ok";
-    }
 }
