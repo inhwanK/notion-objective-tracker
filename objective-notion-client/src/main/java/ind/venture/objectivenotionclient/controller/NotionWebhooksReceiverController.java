@@ -1,7 +1,9 @@
 package ind.venture.objectivenotionclient.controller;
 
-import ind.venture.objectivenotion.model.webhooks.NotionWebhookEventDto;
+import ind.venture.objectivenotion.model.webhooks.NotionWebhookEvent;
 import ind.venture.objectivenotionclient.handler.PagePropertiesUpdatedHandler;
+import ind.venture.objectivenotionclient.handler.WebhookEventDispatcher;
+import ind.venture.objectivenotionclient.handler.WebhookEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -13,21 +15,17 @@ public class NotionWebhooksReceiverController {
 
     @Value("${notion.api.key}")
     private String apiKey;
-    private final PagePropertiesUpdatedHandler pagePropertiesUpdatedHandler;
+    private final WebhookEventDispatcher webhookEventDispatcher;
 
-    public NotionWebhooksReceiverController(PagePropertiesUpdatedHandler pagePropertiesUpdatedHandler) {
-        this.pagePropertiesUpdatedHandler = pagePropertiesUpdatedHandler;
+    public NotionWebhooksReceiverController(WebhookEventDispatcher webhookEventDispatcher) {
+        this.webhookEventDispatcher = webhookEventDispatcher;
     }
 
     @PostMapping("/webhook/event")
     public void receiveEvent(
-            @RequestBody NotionWebhookEventDto notionWebhookEventDto
+            @RequestBody NotionWebhookEvent event
     ) {
-        log.info("notionWebhookEventDto: {}", notionWebhookEventDto);
-        if ("page.properties_updated".equals(notionWebhookEventDto.getType())) {
-            pagePropertiesUpdatedHandler.handle(apiKey, notionWebhookEventDto);
-        }
+        log.info("event: {}", event);
+        webhookEventDispatcher.dispatch(apiKey, event);
     }
-
-
 }

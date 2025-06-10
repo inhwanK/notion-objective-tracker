@@ -1,8 +1,9 @@
 package ind.venture.objectivenotionclient.handler;
 
-import ind.venture.objectivenotion.model.webhooks.NotionWebhookEventDto;
+import ind.venture.objectivenotion.model.webhooks.NotionWebhookEvent;
 
 public interface WebhookEventHandler {
 
-    void handle(String apiKey, NotionWebhookEventDto notionWebhookEventDto);
+    void handle(String apiKey, NotionWebhookEvent notionWebhookEvent);
+    String getType();
 }
