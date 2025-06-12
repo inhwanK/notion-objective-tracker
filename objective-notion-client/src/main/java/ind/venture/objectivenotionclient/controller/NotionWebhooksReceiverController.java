@@ -1,7 +1,11 @@
 package ind.venture.objectivenotionclient.controller;
 
-import ind.venture.objectivenotion.model.webhooks.NotionWebhookEventDto;
+import ind.venture.objectivenotion.model.webhooks.NotionWebhookEvent;
+import ind.venture.objectivenotionclient.handler.PagePropertiesUpdatedHandler;
+import ind.venture.objectivenotionclient.handler.WebhookEventDispatcher;
+import ind.venture.objectivenotionclient.handler.WebhookEventHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -9,17 +13,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api")
 public class NotionWebhooksReceiverController {
 
-    @PostMapping("/webhook/event")
-    public void propertiesUpdate(
-            @RequestBody NotionWebhookEventDto notionWebhookEventDto
-    ) {
-        log.info("notionWebhookEventDto: {}", notionWebhookEventDto);
-        return;
+    @Value("${notion.api.key}")
+    private String apiKey;
+    private final WebhookEventDispatcher webhookEventDispatcher;
+
+    public NotionWebhooksReceiverController(WebhookEventDispatcher webhookEventDispatcher) {
+        this.webhookEventDispatcher = webhookEventDispatcher;
     }
 
-    @GetMapping("/healthy")
-    public String healthy() {
-        log.info("healthy check");
-        return "ok";
+    @PostMapping("/webhook/event")
+    public void receiveEvent(
+            @RequestBody NotionWebhookEvent event
+    ) {
+        log.info("event: {}", event);
+        webhookEventDispatcher.dispatch(apiKey, event);
     }
 }

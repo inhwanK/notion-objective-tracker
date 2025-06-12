@@ -9,7 +9,7 @@ import ind.venture.objectivenotion.model.webhooks.common.Entity;
 import java.time.Instant;
 import java.util.List;
 
-public class NotionWebhookEventDto {
+public class NotionWebhookEvent {
     private String id;
     private Instant timestamp;
     @JsonProperty("workspace_id")
@@ -80,7 +80,7 @@ public class NotionWebhookEventDto {
 
     @Override
     public String toString() {
-        return "PagePropertiesUpdatedHook{" +
+        return "NotionWebhookEventDto{" +
                 "id='" + id + '\'' +
                 ", timestamp=" + timestamp +
                 ", workspaceId='" + workspaceId + '\'' +

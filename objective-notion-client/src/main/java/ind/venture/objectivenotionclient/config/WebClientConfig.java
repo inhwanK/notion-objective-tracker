@@ -47,15 +47,8 @@ public class WebClientConfig {
             ClientRequest request,
             ClientResponse response
     ) {
-        return response.bodyToMono(NotionErrorResponse.class)
+        return response.bodyToMono(Object.class) // TODO 클래스 수정 필요
                 .flatMap(error -> {
-//                    log.error("Notion API Error | status={} | code={} | message={} | requestId={} | uri={}",
-//                            error.getStatus(),
-//                            error.getCode(),
-//                            error.getMessage(),
-//                            error.getRequestId(),
-//                            request.url());
-
                     return Mono.error(new RuntimeException("Notion API Error: "/* + error.getMessage()*/));
                 });
     }

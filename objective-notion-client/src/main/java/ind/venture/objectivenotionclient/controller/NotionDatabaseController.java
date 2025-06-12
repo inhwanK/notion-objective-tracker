@@ -1,7 +1,7 @@
 package ind.venture.objectivenotionclient.controller;
 
 import ind.venture.objectivenotion.model.database.Database;
-import ind.venture.objectivenotionclient.service.NotionDatabaseService;
+import ind.venture.objectivenotionclient.service.NotionService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -9,10 +9,10 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api")
 public class NotionDatabaseController {
 
-    private final NotionDatabaseService notionDatabaseService;
+    private final NotionService notionService;
 
-    public NotionDatabaseController(NotionDatabaseService notionDatabaseService) {
-        this.notionDatabaseService = notionDatabaseService;
+    public NotionDatabaseController(NotionService notionService) {
+        this.notionService = notionService;
     }
 
     @GetMapping("/{databaseId}/info")
@@ -20,7 +20,7 @@ public class NotionDatabaseController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.getDatabaseInfo(apiKey, databaseId);
+        return notionService.getDatabaseInfo(apiKey, databaseId);
     }
 
     @GetMapping("/{databaseId}/check")
@@ -28,6 +28,6 @@ public class NotionDatabaseController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.checkIsReminderDatabase(apiKey, databaseId);
+        return notionService.checkIsReminderDatabase(apiKey, databaseId);
     }
 }
