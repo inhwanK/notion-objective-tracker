@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
-import java.util.Objects;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -12,9 +11,6 @@ public class PageProperty {
     private String id;
     private String type;
     private List<RichText> title;
-    private List<RichText> richText;
-//    private DatabaseProperty select;
-//    private DatabaseProperty status;
     private Date date;
     private String url;
     private String phoneNumber;
@@ -23,9 +19,11 @@ public class PageProperty {
     private String createdTime;
     @JsonProperty("last_edited_time")
     private String lastEditedTime;
+    private List<Relation> relation;
+    @JsonProperty("has_more")
+    private Boolean hasMore;
 
-    public PageProperty() {
-    }
+    public PageProperty() {}
 
     public PageProperty(
             String id,
@@ -36,7 +34,9 @@ public class PageProperty {
             String phoneNumber,
             String email,
             String createdTime,
-            String lastEditedTime
+            String lastEditedTime,
+            List<Relation> relation,
+            Boolean hasMore
     ) {
         this.id = id;
         this.type = type;
@@ -47,6 +47,8 @@ public class PageProperty {
         this.email = email;
         this.createdTime = createdTime;
         this.lastEditedTime = lastEditedTime;
+        this.relation = relation;
+        this.hasMore = hasMore;
     }
 
     public String getId() {
@@ -85,6 +87,14 @@ public class PageProperty {
         return lastEditedTime;
     }
 
+    public List<Relation> getRelation() {
+        return relation;
+    }
+
+    public Boolean getHasMore() {
+        return hasMore;
+    }
+
     @Override
     public String toString() {
         return "PageProperty{" +
@@ -97,6 +107,8 @@ public class PageProperty {
                 ", email='" + email + '\'' +
                 ", createdTime='" + createdTime + '\'' +
                 ", lastEditedTime='" + lastEditedTime + '\'' +
+                ", relation=" + relation +
+                ", hasMore=" + hasMore +
                 '}';
     }
 }

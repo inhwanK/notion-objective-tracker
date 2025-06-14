@@ -1,7 +1,5 @@
 package ind.venture.objectivenotion.model.database.sort;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 public class QuerySort {
     private final String property;
     private final QuerySortDirection direction;
