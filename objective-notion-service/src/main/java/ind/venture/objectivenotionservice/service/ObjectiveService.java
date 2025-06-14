@@ -1,6 +1,7 @@
 package ind.venture.objectivenotionservice.service;
 
-import ind.venture.objectivenotion.model.page.property.PageProperty;
+import ind.venture.objectivenotion.model.page.property.DateProperty;
+import ind.venture.objectivenotion.model.page.type.Date;
 import ind.venture.objectivenotion.model.webhooks.NotionWebhookEvent;
 import ind.venture.objectivenotionservice.client.NotionPageClient;
 import lombok.extern.slf4j.Slf4j;
@@ -8,8 +9,6 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -22,25 +21,28 @@ public class ObjectiveService {
 
     public Mono<Void> createSubObjective(String apiKey, NotionWebhookEvent event) {
         return findSubObjectiveCreatedAtPropertyId(apiKey, event)
-                .filter(this::canCreateSubObjective)
+                .filter(this::validatePossibleCreateSubObjective)
                 .then();
     }
 
 
-    public Mono<PageProperty> findSubObjectiveCreatedAtPropertyId(String apiKey, NotionWebhookEvent event) {
+    public Mono<DateProperty> findSubObjectiveCreatedAtPropertyId(String apiKey, NotionWebhookEvent event) {
         String pageId = event.getEntity().getId();
         String targetName = "하위 목표 생성 시간";
         return notionPageClient.fetchPage(apiKey, pageId)
-                .map(page -> page.getProperties().get(targetName))
-                .filter(Objects::nonNull);
+                .map(page -> (DateProperty) page.getProperties().get(targetName));
     }
 
-    private boolean canCreateSubObjective(PageProperty property) {
-        String subObjectiveCreatedAt = property.getDate().getStart();
-        if (subObjectiveCreatedAt == null) {
-            return true;
+    private boolean validatePossibleCreateSubObjective(DateProperty property) {
+        if (property == null) {
+            log.warn("하위 목표 생성 시간 속성이 존재하지 않습니다."); // 추후 데이터베이스 속성을 자동으로 추가하도록 하기
+            return false;
         }
-        OffsetDateTime createdAt = OffsetDateTime.parse(subObjectiveCreatedAt);
-        return createdAt.isBefore(OffsetDateTime.now().minusMinutes(1));
+
+        Date date = property.getDate();
+        String createdAt = (date != null) ? date.getStart() : null;
+
+        return createdAt == null || OffsetDateTime.parse(createdAt)
+                .isBefore(OffsetDateTime.now().minusMinutes(1));
     }
 }
