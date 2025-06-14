@@ -3,6 +3,10 @@ package ind.venture.objectivenotionservice.util;
 
 import ind.venture.objectivenotion.model.page.Page;
 import ind.venture.objectivenotion.model.page.property.*;
+import ind.venture.objectivenotion.model.page.type.Date;
+import ind.venture.objectivenotion.model.page.type.Link;
+import ind.venture.objectivenotion.model.page.type.RichText;
+import ind.venture.objectivenotion.model.page.type.Text;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -31,22 +35,11 @@ public class PageFactory {
     }
 
     public static PageProperty createTitleProperty(String id, String text, String href) {
-        return new PageProperty(
-                id,
-                "title",
-                List.of(createRichText(text, href)),
-                null, null, null, null, null, null, null, null
-        );
+        return new TitleProperty(id, List.of(createRichText(text, href)));
     }
 
     public static PageProperty createDateProperty(String id, Date date) {
-        return new PageProperty(
-                id,
-                "date",
-                null,
-                date,
-                null, null, null, null, null, null, null
-        );
+        return new DateProperty(id, date);
     }
 
     public static RichText createRichText(String text, String href) {

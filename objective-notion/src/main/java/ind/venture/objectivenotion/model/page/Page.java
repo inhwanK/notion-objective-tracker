@@ -17,7 +17,6 @@ public class Page {
     private String publicUrl;
     private Map<String, PageProperty> properties;
     private String requestId;
-    private boolean inTrash;
 
     public Page() {
     }
@@ -85,10 +84,6 @@ public class Page {
 
     public String getRequestId() {
         return requestId;
-    }
-
-    public boolean isInTrash() {
-        return inTrash;
     }
 
     @Override

@@ -1,12 +1,14 @@
 package ind.venture.objectivenotion.model.page.property;
 
-public class Link {
+public class UrlProperty extends PageProperty {
     private String url;
 
-    public Link() {
+    public UrlProperty() {
+        super();
     }
 
-    public Link(String url) {
+    public UrlProperty(String id, String url) {
+        super(id, "url");
         this.url = url;
     }
 
@@ -14,4 +16,3 @@ public class Link {
         return url;
     }
 }
-

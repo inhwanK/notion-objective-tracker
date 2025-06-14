@@ -1,16 +1,10 @@
 package ind.venture.objectivenotion.model.database;
 
-import ind.venture.objectivenotion.model.page.property.RichText;
-
 public class DatabaseProperty {
 
     private String id;
     private String name;
     private String type;
-    private RichText title;
-    private RichText richText;
-//    private Select select;
-//    private Status status;
 
 
     public DatabaseProperty() {

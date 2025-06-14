@@ -1,4 +1,4 @@
-package ind.venture.objectivenotion.model.page.property;
+package ind.venture.objectivenotion.model.page.type;
 
 public class Date {
     private String start;

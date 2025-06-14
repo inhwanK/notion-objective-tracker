@@ -4,7 +4,6 @@ package ind.venture.objectivenotionservice.client;
 import ind.venture.objectivenotion.model.database.Database;
 import ind.venture.objectivenotion.model.database.QueryResults;
 import ind.venture.objectivenotion.model.page.Page;
-import ind.venture.objectivenotion.model.page.property.PageProperty;
 import ind.venture.objectivenotion.request.QueryDatabaseRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -59,16 +58,4 @@ public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
                 .bodyToMono(Page.class);
     }
 
-
-    @Override
-    public Mono<PageProperty> fetchPageProperty(String apiKey, String pageId, String propertyId) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment(PAGE_URI, pageId, "properties", propertyId)
-                        .build())
-                .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + apiKey)
-                .retrieve()
-                .bodyToMono(PageProperty.class);
-    }
 }
