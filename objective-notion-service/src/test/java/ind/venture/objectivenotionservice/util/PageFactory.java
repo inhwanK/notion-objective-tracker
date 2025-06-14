@@ -35,7 +35,7 @@ public class PageFactory {
                 id,
                 "title",
                 List.of(createRichText(text, href)),
-                null, null, null, null, null, null
+                null, null, null, null, null, null, null, null
         );
     }
 
@@ -45,7 +45,7 @@ public class PageFactory {
                 "date",
                 null,
                 date,
-                null, null, null, null, null
+                null, null, null, null, null, null, null
         );
     }
 
