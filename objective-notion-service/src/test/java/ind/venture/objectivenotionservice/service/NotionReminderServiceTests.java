@@ -39,29 +39,6 @@ public class NotionReminderServiceTests {
         notionReminderService = new NotionReminderService(notionWebClient);
     }
 
-    @Test
-    void checkIsReminderDatabase_ShouldReturnTrue() {
-        Database db = new Database("db123", Map.of("리마인더", new DatabaseProperty("1", "리마인더", "date")));
-
-        when(notionWebClient.fetchDatabase("token", "db123"))
-                .thenReturn(Mono.just(db));
-
-        StepVerifier.create(notionReminderService.checkIsReminderDatabase("token", "db123"))
-                .expectNext(true)
-                .verifyComplete();
-    }
-
-    @Test
-    void checkIsReminderDatabase_ShouldReturnFalse() {
-        Database db = new Database("db123", Map.of("리마", new DatabaseProperty("1", "리마", "date")));
-
-        when(notionWebClient.fetchDatabase("token", "db123"))
-                .thenReturn(Mono.just(db));
-
-        StepVerifier.create(notionReminderService.checkIsReminderDatabase("token", "db123"))
-                .expectNext(false)
-                .verifyComplete();
-    }
 
     @Test
     void findAllReminderPage_ShouldReturnPage() {

@@ -3,6 +3,7 @@ package ind.venture.objectivenotionservice.controller;
 
 import ind.venture.objectivenotion.model.page.Page;
 import ind.venture.objectivenotionservice.service.NotionDatabaseService;
+import ind.venture.objectivenotionservice.service.NotionReminderService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -12,10 +13,11 @@ import java.util.List;
 @RequestMapping("/api")
 public class ReminderController {
 
-    private final NotionDatabaseService notionDatabaseService;
 
-    public ReminderController(NotionDatabaseService notionDatabaseService) {
-        this.notionDatabaseService = notionDatabaseService;
+    private final NotionReminderService notionReminderService;
+
+    public ReminderController(NotionReminderService notionReminderService) {
+        this.notionReminderService = notionReminderService;
     }
 
     @GetMapping("/{databaseId}/reminder-pages")
@@ -23,7 +25,7 @@ public class ReminderController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.findAllReminderPage(apiKey, databaseId);
+        return notionReminderService.findAllReminderPage(apiKey, databaseId);
     }
 
     @GetMapping("/{databaseId}/today")
@@ -31,7 +33,7 @@ public class ReminderController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.findTodayReminderPage(apiKey, databaseId);
+        return notionReminderService.findTodayReminderPage(apiKey, databaseId);
     }
 
     @GetMapping("/{databaseId}/weekly")
@@ -39,7 +41,7 @@ public class ReminderController {
             @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.findWeeklyReminderPage(apiKey, databaseId);
+        return notionReminderService.findWeeklyReminderPage(apiKey, databaseId);
     }
 
 }
