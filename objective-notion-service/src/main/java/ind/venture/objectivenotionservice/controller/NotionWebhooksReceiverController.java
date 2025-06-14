@@ -27,7 +27,11 @@ public class NotionWebhooksReceiverController {
     public Mono<Void> receiveEvent(
             @RequestBody NotionWebhookEvent event
     ) {
-        log.info("event: {}", event);
+        if ("page.properties_updated".equals(event.getType())) {
+            log.info("[웹훅] 속성 업데이트 : {}", event);
+            return Mono.empty();
+        }
+        log.info("[웹훅] 지원하지 않는 이벤트 : {}", event);
         return Mono.empty();
     }
 }
