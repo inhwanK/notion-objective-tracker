@@ -68,7 +68,6 @@ public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
-                .header("Notion-Version", "2022-06-28")
                 .retrieve()
                 .bodyToMono(PageProperty.class);
     }
