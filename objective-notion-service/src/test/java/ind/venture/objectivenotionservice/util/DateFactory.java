@@ -1,7 +1,7 @@
 package ind.venture.objectivenotionservice.util;
 
 
-import ind.venture.objectivenotion.model.page.property.Date;
+import ind.venture.objectivenotion.model.page.type.Date;
 
 import java.time.LocalDate;
 

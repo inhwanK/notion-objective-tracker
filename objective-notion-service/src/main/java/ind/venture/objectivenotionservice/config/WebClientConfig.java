@@ -49,7 +49,7 @@ public class WebClientConfig {
     ) {
         return response.bodyToMono(Object.class) // TODO 클래스 수정 필요
                 .flatMap(error -> {
-                    return Mono.error(new RuntimeException("Notion API Error: "/* + error.getMessage()*/));
+                    return Mono.error(new RuntimeException("Notion API Error"));
                 });
     }
 }

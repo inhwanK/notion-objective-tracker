@@ -2,6 +2,7 @@ package ind.venture.objectivenotionservice.controller;
 
 import ind.venture.objectivenotion.model.webhooks.NotionWebhookEvent;
 import ind.venture.objectivenotionservice.service.NotionPageService;
+import ind.venture.objectivenotionservice.service.ObjectiveService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,10 +18,10 @@ public class NotionWebhooksReceiverController {
 
     @Value("${notion.api.key}")
     private String apiKey;
-    private final NotionPageService notionPageService;
+    private final ObjectiveService objectiveService;
 
-    public NotionWebhooksReceiverController(NotionPageService notionPageService) {
-        this.notionPageService = notionPageService;
+    public NotionWebhooksReceiverController(ObjectiveService objectiveService) {
+        this.objectiveService = objectiveService;
     }
 
     @PostMapping("/webhook/event")
@@ -29,7 +30,7 @@ public class NotionWebhooksReceiverController {
     ) {
         if ("page.properties_updated".equals(event.getType())) {
             log.info("[웹훅] 속성 업데이트 : {}", event);
-            return Mono.empty();
+            return objectiveService.createSubObjective(apiKey, event);
         }
         log.info("[웹훅] 지원하지 않는 이벤트 : {}", event);
         return Mono.empty();

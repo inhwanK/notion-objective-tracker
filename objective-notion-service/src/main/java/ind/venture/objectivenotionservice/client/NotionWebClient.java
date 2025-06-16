@@ -13,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -59,16 +60,28 @@ public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
                 .bodyToMono(Page.class);
     }
 
+    @Override
+    public Mono<Page> deletePage(String apiKey, String pageId) {
+        return webClient.patch()
+                .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI, pageId).build())
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + apiKey)
+                .bodyValue(Map.of("archived", true))
+                .retrieve()
+                .bodyToMono(Page.class);
+    }
 
     @Override
     public Mono<PageProperty> fetchPageProperty(String apiKey, String pageId, String propertyId) {
+
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .pathSegment(PAGE_URI, pageId, "properties", propertyId)
-                        .build())
+                .uri(uriBuilder ->
+                        uriBuilder.pathSegment(PAGE_URI, pageId, "properties", propertyId).build()
+                )
                 .accept(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
                 .bodyToMono(PageProperty.class);
     }
+
 }
