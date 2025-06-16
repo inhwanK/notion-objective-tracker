@@ -4,6 +4,7 @@ package ind.venture.objectivenotionservice.client;
 import ind.venture.objectivenotion.model.database.Database;
 import ind.venture.objectivenotion.model.database.QueryResults;
 import ind.venture.objectivenotion.model.page.Page;
+import ind.venture.objectivenotion.model.page.property.PageProperty;
 import ind.venture.objectivenotion.request.QueryDatabaseRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -12,6 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -56,6 +58,30 @@ public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
                 .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
                 .bodyToMono(Page.class);
+    }
+
+    @Override
+    public Mono<Page> deletePage(String apiKey, String pageId) {
+        return webClient.patch()
+                .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI, pageId).build())
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + apiKey)
+                .bodyValue(Map.of("archived", true))
+                .retrieve()
+                .bodyToMono(Page.class);
+    }
+
+    @Override
+    public Mono<PageProperty> fetchPageProperty(String apiKey, String pageId, String propertyId) {
+
+        return webClient.get()
+                .uri(uriBuilder ->
+                        uriBuilder.pathSegment(PAGE_URI, pageId, "properties", propertyId).build()
+                )
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + apiKey)
+                .retrieve()
+                .bodyToMono(PageProperty.class);
     }
 
 }

@@ -1,14 +1,20 @@
 package ind.venture.objectivenotionservice.service;
 
-import ind.venture.objectivenotion.model.page.property.DateProperty;
-import ind.venture.objectivenotion.model.page.type.Date;
+import ind.venture.objectivenotion.model.page.Page;
+import ind.venture.objectivenotion.model.page.property.PageProperty;
+import ind.venture.objectivenotion.model.page.property.RelationProperty;
+import ind.venture.objectivenotion.model.page.type.Relation;
 import ind.venture.objectivenotion.model.webhooks.NotionWebhookEvent;
 import ind.venture.objectivenotionservice.client.NotionPageClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.OffsetDateTime;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 
 @Slf4j
 @Service
@@ -20,29 +26,48 @@ public class ObjectiveService {
     }
 
     public Mono<Void> createSubObjective(String apiKey, NotionWebhookEvent event) {
-        return findSubObjectiveCreatedAtPropertyId(apiKey, event)
-                .filter(this::validatePossibleCreateSubObjective)
-                .then();
+        return getCreatableSubObjectivePage(apiKey, event)
+                .flatMap(page -> {
+                    List<Relation> relations = extractSubRelations(page);
+                    // 하위 목표 제거
+                    return Flux.fromIterable(relations)
+                            .flatMap(relation -> notionPageClient.deletePage(apiKey, relation.getId()))
+                            .then();
+                });
     }
 
-
-    public Mono<DateProperty> findSubObjectiveCreatedAtPropertyId(String apiKey, NotionWebhookEvent event) {
-        String pageId = event.getEntity().getId();
-        String targetName = "하위 목표 생성 시간";
-        return notionPageClient.fetchPage(apiKey, pageId)
-                .map(page -> (DateProperty) page.getProperties().get(targetName));
-    }
-
-    private boolean validatePossibleCreateSubObjective(DateProperty property) {
-        if (property == null) {
-            log.warn("하위 목표 생성 시간 속성이 존재하지 않습니다."); // 추후 데이터베이스 속성을 자동으로 추가하도록 하기
-            return false;
+    private List<Relation> extractSubRelations(Page page) {
+        PageProperty prop = page.getProperties().get("하위 항목");
+        if (prop instanceof RelationProperty) {
+            List<Relation> relations = ((RelationProperty) prop).getRelation();
+            return (relations != null) ? relations : Collections.emptyList();
         }
+        return Collections.emptyList();
+    }
 
-        Date date = property.getDate();
-        String createdAt = (date != null) ? date.getStart() : null;
 
-        return createdAt == null || OffsetDateTime.parse(createdAt)
-                .isBefore(OffsetDateTime.now().minusMinutes(1));
+    public Mono<Page> getCreatableSubObjectivePage(String apiKey, NotionWebhookEvent event) {
+        String pageId = event.getEntity().getId();
+        List<String> properties = event.getData().getUpdatedProperties();
+
+        return notionPageClient.fetchPage(apiKey, pageId)
+                .filter(page -> validateRelation(page) && validateSubObjectiveCreatedAt(page.getProperties(), properties))
+                .switchIfEmpty(Mono.error(new IllegalStateException("하위 목표 생성 조건이 아닙니다.")));
+    }
+
+    private boolean validateRelation(Page page) {
+        Map<String, PageProperty> props = page.getProperties();
+        PageProperty sub = props.get("하위 항목");
+        PageProperty parent = props.get("상위 항목");
+
+        return sub != null
+                && parent != null
+                && "relation".equals(sub.getType())
+                && "relation".equals(parent.getType());
+    }
+
+    private boolean validateSubObjectiveCreatedAt(Map<String, PageProperty> properties, List<String> updatedProperties) {
+        PageProperty property = properties.get("하위 목표 생성 시간");
+        return property != null && updatedProperties.contains(property.getId());
     }
 }
