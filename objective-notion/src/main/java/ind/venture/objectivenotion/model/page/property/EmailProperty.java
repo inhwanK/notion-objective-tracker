@@ -1,7 +1,8 @@
 package ind.venture.objectivenotion.model.page.property;
 
-import kotlin.reflect.jvm.internal.impl.metadata.ProtoBuf;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class EmailProperty extends PageProperty {
     private String email;
 

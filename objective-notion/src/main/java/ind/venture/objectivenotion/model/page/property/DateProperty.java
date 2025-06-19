@@ -1,7 +1,9 @@
 package ind.venture.objectivenotion.model.page.property;
 
 import ind.venture.objectivenotion.model.page.type.Date;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class DateProperty extends PageProperty {
     private Date date;
 
