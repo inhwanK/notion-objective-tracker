@@ -2,9 +2,11 @@ package ind.venture.objectivenotion.model.page.property;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import ind.venture.objectivenotion.model.page.type.Relation;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString(callSuper = true)
 public class RelationProperty extends PageProperty {
     private List<Relation> relation;
 

@@ -1,5 +1,8 @@
 package ind.venture.objectivenotion.model.page.property;
 
+import lombok.ToString;
+
+@ToString(callSuper = true)
 public class UrlProperty extends PageProperty {
     private String url;
 

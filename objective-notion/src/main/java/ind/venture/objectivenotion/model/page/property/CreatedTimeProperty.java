@@ -1,7 +1,9 @@
 package ind.venture.objectivenotion.model.page.property;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class CreatedTimeProperty extends PageProperty {
     @JsonProperty("created_time")
     private String createdTime;
@@ -14,4 +16,6 @@ public class CreatedTimeProperty extends PageProperty {
         super(id, "created_time");
         this.createdTime = createdTime;
     }
+
+
 }

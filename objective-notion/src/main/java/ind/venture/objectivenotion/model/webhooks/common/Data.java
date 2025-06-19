@@ -60,8 +60,6 @@ public class Data {
     @JsonProperty("is_locked")
     private Boolean isLocked;
 
-    // --- Getters & Setters ---
-
     public Parent getParent() {
         return parent;
     }

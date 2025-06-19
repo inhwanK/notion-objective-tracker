@@ -11,7 +11,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = UrlProperty.class, name = "url"),
         @JsonSubTypes.Type(value = EmailProperty.class, name = "email"),
         @JsonSubTypes.Type(value = CreatedTimeProperty.class, name = "created_time"),
-        @JsonSubTypes.Type(value = LastEditedTimeProperty.class, name = "last_edited_time")
+        @JsonSubTypes.Type(value = LastEditedTimeProperty.class, name = "last_edited_time"),
+        @JsonSubTypes.Type(value = ButtonProperty.class, name = "button")
 })
 public abstract class PageProperty {
     private String id;
@@ -31,5 +32,13 @@ public abstract class PageProperty {
 
     public String getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return "PageProperty{" +
+                "id='" + id + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }

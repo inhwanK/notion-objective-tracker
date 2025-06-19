@@ -1,9 +1,11 @@
 package ind.venture.objectivenotion.model.page.property;
 
 import ind.venture.objectivenotion.model.page.type.RichText;
+import lombok.ToString;
 
 import java.util.List;
 
+@ToString(callSuper = true)
 public class TitleProperty extends PageProperty {
     private List<RichText> title;
 

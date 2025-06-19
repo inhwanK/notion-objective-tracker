@@ -1,7 +1,9 @@
 package ind.venture.objectivenotion.model.page.property;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.ToString;
 
+@ToString(callSuper = true)
 public class LastEditedTimeProperty extends PageProperty {
     @JsonProperty("last_edited_time")
     private String lastEditedTime;

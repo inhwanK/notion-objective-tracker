@@ -12,6 +12,10 @@ dependencies {
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.18.3'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+
+//    compileOnly 'org.projectlombok:lombok'
+//    annotationProcessor 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok:1.18.38'
     //    implementation 'com.github.seratch:notion-sdk-jvm-core:1.11.1'
     //    implementation 'tw.yukina.notion.sdk:notion-sdk-java:0.0.4'
 }
