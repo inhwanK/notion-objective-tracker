@@ -40,6 +40,7 @@ public class ObjectiveService {
         PageProperty prop = page.getProperties().get("하위 항목");
         if (prop instanceof RelationProperty) {
             List<Relation> relations = ((RelationProperty) prop).getRelation();
+            log.info("relations: {}", relations);
             return (relations != null) ? relations : Collections.emptyList();
         }
         return Collections.emptyList();
@@ -51,6 +52,7 @@ public class ObjectiveService {
         List<String> properties = event.getData().getUpdatedProperties();
 
         return notionPageClient.fetchPage(apiKey, pageId)
+                .doOnNext(notionPage -> log.info("notionPage {}", notionPage))
                 .filter(page -> validateRelation(page) && validateSubObjectiveCreatedAt(page.getProperties(), properties))
                 .switchIfEmpty(Mono.error(new IllegalStateException("하위 목표 생성 조건이 아닙니다.")));
     }
