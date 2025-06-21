@@ -29,7 +29,7 @@ public class ObjectiveService {
         return getCreatableSubObjectivePage(apiKey, event)
                 .flatMap(page -> {
                     List<Relation> relations = extractSubRelations(page);
-                    // 하위 목표 제거
+                    // 기존 하위 목표 제거
                     return Flux.fromIterable(relations)
                             .flatMap(relation -> notionPageClient.deletePage(apiKey, relation.getId()))
                             .then();
