@@ -23,10 +23,10 @@ import java.util.Map;
 public class NotionObjectiveManager {
     private final NotionPageClient notionPageClient;
 
-    public Mono<Void> deleteAllSubObjectives(String apiKey, Page page) {
+    public Mono<Void> deleteAllSubObjectives(Page page) {
         List<Relation> relations = extractSubRelations(page);
         return Flux.fromIterable(relations)
-                .flatMap(r -> notionPageClient.deletePage(apiKey, r.getId()))
+                .flatMap(r -> notionPageClient.deletePage(r.getId()))
                 .then();
     }
 
@@ -45,11 +45,11 @@ public class NotionObjectiveManager {
         return titleProperty.getTitle().getFirst().getText().getContent();
     }
 
-    public Mono<Page> getCreatableSubObjectivePage(String apiKey, NotionWebhookEvent event) {
+    public Mono<Page> getCreatableSubObjectivePage(NotionWebhookEvent event) {
         String pageId = event.getEntity().getId();
         List<String> properties = event.getData().getUpdatedProperties();
 
-        return notionPageClient.fetchPage(apiKey, pageId)
+        return notionPageClient.fetchPage(pageId)
                 .doOnNext(notionPage -> log.info("notionPage {}", notionPage))
                 .filter(page -> validateRelation(page) && validateSubObjectiveCreatedAt(page.getProperties(), properties))
                 .switchIfEmpty(Mono.error(new IllegalStateException("하위 목표 생성 조건이 아닙니다.")));

@@ -59,10 +59,10 @@ public class NotionReminderServiceTests {
         );
 
         // when
-        when(notionWebClient.queryDatabase(any(), any(), any())) // TODO DatabaseRequest 필요
+        when(notionWebClient.queryDatabase(any(), any())) // TODO DatabaseRequest 필요
                 .thenReturn(Mono.just(List.of(pages.get(0), pages.get(2))));
 
-        Mono<List<Page>> result = notionReminderService.findAllReminderPage("test-token", "test-db");
+        Mono<List<Page>> result = notionReminderService.findAllReminderPage("test-db");
 
         // then
         StepVerifier.create(result)
@@ -79,11 +79,11 @@ public class NotionReminderServiceTests {
                 400, "Bad Request", null, null, null);
 
         // when
-        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+        when(notionWebClient.queryDatabase(eq("db-id"), any()))
                 .thenReturn(Mono.error(badRequestException));
 
         // then
-        StepVerifier.create(notionReminderService.findAllReminderPage("token", "db-id"))
+        StepVerifier.create(notionReminderService.findAllReminderPage("db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)
@@ -103,11 +103,11 @@ public class NotionReminderServiceTests {
         List<Page> allPages = List.of(page1, page2);
 
         // TODO DatabaseRequest 필요
-        when(notionWebClient.queryDatabase(any(), any(), any()))
+        when(notionWebClient.queryDatabase(any(), any()))
                 .thenReturn(Mono.just(allPages));
 
         // when
-        Mono<List<Page>> result = notionReminderService.findTodayReminderPage("token", "db-id");
+        Mono<List<Page>> result = notionReminderService.findTodayReminderPage("db-id");
 
         // then
         StepVerifier.create(result)
@@ -122,10 +122,10 @@ public class NotionReminderServiceTests {
         WebClientResponseException badRequestException = WebClientResponseException.create(
                 400, "Bad Request", null, null, null);
 
-        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+        when(notionWebClient.queryDatabase(eq("db-id"), any()))
                 .thenReturn(Mono.error(badRequestException));
 
-        StepVerifier.create(notionReminderService.findTodayReminderPage("token", "db-id"))
+        StepVerifier.create(notionReminderService.findTodayReminderPage("db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)
@@ -141,12 +141,12 @@ public class NotionReminderServiceTests {
         Page page2 = PageFactory.createBasePage("page2", "Weekly Reminder", false, "req-2");
         page2.getProperties().put("리마인더", PageFactory.createDateProperty("reminder", DateFactory.daysFromNowAsIsoDate(7)));
 
-        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+        when(notionWebClient.queryDatabase(eq("db-id"), any()))
                 .thenReturn(Mono.just(List.of(page2)));
 
         // when
         // TODO DatabaseRequest 필요
-        Mono<List<Page>> result = notionReminderService.findWeeklyReminderPage("token", "db-id");
+        Mono<List<Page>> result = notionReminderService.findWeeklyReminderPage("db-id");
 
         // then
         StepVerifier.create(result)
@@ -161,10 +161,10 @@ public class NotionReminderServiceTests {
         WebClientResponseException badRequestException = WebClientResponseException.create(
                 400, "Bad Request", null, null, null);
 
-        when(notionWebClient.queryDatabase(eq("token"), eq("db-id"), any()))
+        when(notionWebClient.queryDatabase(eq("db-id"), any()))
                 .thenReturn(Mono.error(badRequestException));
 
-        StepVerifier.create(notionReminderService.findWeeklyReminderPage("token", "db-id"))
+        StepVerifier.create(notionReminderService.findWeeklyReminderPage("db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)

@@ -22,26 +22,23 @@ public class ReminderController {
 
     @GetMapping("/{databaseId}/reminder-pages")
     public Mono<List<Page>> getAllReminderPage(
-            @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionReminderService.findAllReminderPage(apiKey, databaseId);
+        return notionReminderService.findAllReminderPage(databaseId);
     }
 
     @GetMapping("/{databaseId}/today")
     public Mono<List<Page>> getTodayReminderPage(
-            @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionReminderService.findTodayReminderPage(apiKey, databaseId);
+        return notionReminderService.findTodayReminderPage(databaseId);
     }
 
     @GetMapping("/{databaseId}/weekly")
     public Mono<List<Page>> getWeeklyReminderPage(
-            @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionReminderService.findWeeklyReminderPage(apiKey, databaseId);
+        return notionReminderService.findWeeklyReminderPage(databaseId);
     }
 
 }

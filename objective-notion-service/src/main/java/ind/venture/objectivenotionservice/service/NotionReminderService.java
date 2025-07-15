@@ -22,21 +22,21 @@ public class NotionReminderService {
     }
 
 
-    public Mono<List<Page>> findAllReminderPage(String apiKey, String databaseId) {
+    public Mono<List<Page>> findAllReminderPage(String databaseId) {
         return LogUtils.logWithContext("전체 리마인더 조회:" + databaseId,
-                notionDatabaseClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createNotEmptyReminderRequest())
+                notionDatabaseClient.queryDatabase(databaseId, DatabaseRequestFactory.createNotEmptyReminderRequest())
         );
     }
 
-    public Mono<List<Page>> findWeeklyReminderPage(String apiKey, String databaseId) {
+    public Mono<List<Page>> findWeeklyReminderPage(String databaseId) {
         return LogUtils.logWithContext("주간 리마인더 조회:" + databaseId,
-                notionDatabaseClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createWeeklyReminderRequest())
+                notionDatabaseClient.queryDatabase(databaseId, DatabaseRequestFactory.createWeeklyReminderRequest())
         );
     }
 
-    public Mono<List<Page>> findTodayReminderPage(String apiKey, String databaseId) {
+    public Mono<List<Page>> findTodayReminderPage(String databaseId) {
         return LogUtils.logWithContext("당일 리마인더 조회:" + databaseId,
-                notionDatabaseClient.queryDatabase(apiKey, databaseId, DatabaseRequestFactory.createTodayReminderRequest())
+                notionDatabaseClient.queryDatabase(databaseId, DatabaseRequestFactory.createTodayReminderRequest())
         );
     }
 }

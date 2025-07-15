@@ -16,9 +16,9 @@ public class ObjectiveService {
     private final NotionObjectiveManager notionManager;
     private final SubObjectiveGenerator subObjectiveGenerator;
 
-    public Mono<Void> createSubObjective(String apiKey, NotionWebhookEvent event) {
+    public Mono<Void> createSubObjective(NotionWebhookEvent event) {
 
-        return notionManager.getCreatableSubObjectivePage(apiKey, event)
-                .flatMap(page -> notionManager.deleteAllSubObjectives(apiKey, page));
+        return notionManager.getCreatableSubObjectivePage(event)
+                .flatMap(page -> notionManager.deleteAllSubObjectives(page));
     }
 }
