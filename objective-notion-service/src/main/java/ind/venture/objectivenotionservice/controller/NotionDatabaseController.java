@@ -17,17 +17,15 @@ public class NotionDatabaseController {
 
     @GetMapping("/{databaseId}/info")
     public Mono<Database> getDatabaseInfo(
-            @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.getDatabaseInfo(apiKey, databaseId);
+        return notionDatabaseService.getDatabaseInfo(databaseId);
     }
 
     @GetMapping("/{databaseId}/check")
     public Mono<Boolean> checkReminderDatabase(
-            @RequestHeader("Authorization") String apiKey,
             @PathVariable("databaseId") String databaseId
     ) {
-        return notionDatabaseService.checkIsReminderDatabase(apiKey, databaseId);
+        return notionDatabaseService.checkIsReminderDatabase(databaseId);
     }
 }

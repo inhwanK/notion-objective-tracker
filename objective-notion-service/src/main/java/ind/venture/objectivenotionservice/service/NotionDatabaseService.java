@@ -18,15 +18,15 @@ public class NotionDatabaseService {
         this.notionDatabaseClient = notionDatabaseClient;
     }
 
-    public Mono<Database> getDatabaseInfo(String apiKey, String databaseId) {
+    public Mono<Database> getDatabaseInfo(String databaseId) {
         return LogUtils.logWithContext("데이터베이스 정보 조회:" + databaseId,
-                notionDatabaseClient.fetchDatabase(apiKey, databaseId)
+                notionDatabaseClient.fetchDatabase(databaseId)
         );
     }
 
-    public Mono<Boolean> checkIsReminderDatabase(String apiKey, String databaseId) {
+    public Mono<Boolean> checkIsReminderDatabase(String databaseId) {
         return LogUtils.logWithContext("리마인더 속성 여부:" + databaseId,
-                notionDatabaseClient.fetchDatabase(apiKey, databaseId)
+                notionDatabaseClient.fetchDatabase(databaseId)
                         .map(this::hasReminderProperty)
         );
     }

@@ -48,10 +48,10 @@ public class NotionDatabaseServiceTests {
                 Map.of("title", new DatabaseProperty("title", "Title", "text"))
         );
 
-        when(notionDatabaseClient.fetchDatabase("token", "db-id"))
+        when(notionDatabaseClient.fetchDatabase("db-id"))
                 .thenReturn(Mono.just(db));
 
-        StepVerifier.create(notionDatabaseService.getDatabaseInfo("token", "db-id"))
+        StepVerifier.create(notionDatabaseService.getDatabaseInfo("db-id"))
                 .expectNext(db)
                 .verifyComplete();
     }
@@ -61,10 +61,10 @@ public class NotionDatabaseServiceTests {
         WebClientResponseException badRequestException = WebClientResponseException.create(
                 400, "Bad Request", null, null, null);
 
-        when(notionDatabaseClient.fetchDatabase("token", "db-id"))
+        when(notionDatabaseClient.fetchDatabase("db-id"))
                 .thenReturn(Mono.error(badRequestException));
 
-        StepVerifier.create(notionDatabaseService.getDatabaseInfo("token", "db-id"))
+        StepVerifier.create(notionDatabaseService.getDatabaseInfo("db-id"))
                 .expectErrorMatches(throwable ->
                         throwable instanceof WebClientResponseException ex &&
                                 ex.getStatusCode() == HttpStatus.BAD_REQUEST)
@@ -75,10 +75,10 @@ public class NotionDatabaseServiceTests {
     void checkIsReminderDatabase_ShouldReturnTrue() {
         Database db = new Database("db123", Map.of("리마인더", new DatabaseProperty("1", "리마인더", "date")));
 
-        when(notionDatabaseClient.fetchDatabase("token", "db123"))
+        when(notionDatabaseClient.fetchDatabase("db123"))
                 .thenReturn(Mono.just(db));
 
-        StepVerifier.create(notionDatabaseService.checkIsReminderDatabase("token", "db123"))
+        StepVerifier.create(notionDatabaseService.checkIsReminderDatabase( "db123"))
                 .expectNext(true)
                 .verifyComplete();
     }
@@ -87,10 +87,10 @@ public class NotionDatabaseServiceTests {
     void checkIsReminderDatabase_ShouldReturnFalse() {
         Database db = new Database("db123", Map.of("리마", new DatabaseProperty("1", "리마", "date")));
 
-        when(notionDatabaseClient.fetchDatabase("token", "db123"))
+        when(notionDatabaseClient.fetchDatabase("db123"))
                 .thenReturn(Mono.just(db));
 
-        StepVerifier.create(notionDatabaseService.checkIsReminderDatabase("token", "db123"))
+        StepVerifier.create(notionDatabaseService.checkIsReminderDatabase("db123"))
                 .expectNext(false)
                 .verifyComplete();
     }
