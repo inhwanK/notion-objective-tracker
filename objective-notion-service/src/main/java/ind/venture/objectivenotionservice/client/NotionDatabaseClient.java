@@ -8,8 +8,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 public interface NotionDatabaseClient {
-    Mono<Database> fetchDatabase(String apiKey, String databaseId);
-    Mono<List<Page>> queryDatabase(String apiKey, String databaseId, QueryDatabaseRequest databaseRequest);
+    Mono<Database> fetchDatabase(String databaseId);
+    Mono<List<Page>> queryDatabase(String databaseId, QueryDatabaseRequest databaseRequest);
 
 
 }

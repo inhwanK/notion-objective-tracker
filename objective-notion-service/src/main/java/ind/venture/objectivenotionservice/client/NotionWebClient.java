@@ -20,30 +20,28 @@ import java.util.Map;
 @Component
 public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
 
-    private final WebClient webClient;
+    private final WebClient notionClient;
     private static final String DATABASE_URI = "databases";
     private static final String PAGE_URI = "pages";
 
-    public NotionWebClient(WebClient webClient) {
-        this.webClient = webClient;
+    public NotionWebClient(WebClient notionClient) {
+        this.notionClient = notionClient;
     }
 
     @Override
-    public Mono<Database> fetchDatabase(String apiKey, String databaseId) {
-        return webClient.get()
+    public Mono<Database> fetchDatabase(String databaseId) {
+        return notionClient.get()
                 .uri(uriBuilder -> uriBuilder.pathSegment(DATABASE_URI, databaseId).build())
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
                 .bodyToMono(Database.class);
     }
 
     @Override
-    public Mono<List<Page>> queryDatabase(String apiKey, String databaseId, QueryDatabaseRequest databaseRequest) {
-        return webClient.post()
+    public Mono<List<Page>> queryDatabase(String databaseId, QueryDatabaseRequest databaseRequest) {
+        return notionClient.post()
                 .uri(uriBuilder -> uriBuilder.pathSegment(DATABASE_URI, databaseId, "query").build())
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + apiKey)
                 .bodyValue(databaseRequest)
                 .retrieve()
                 .bodyToMono(QueryResults.class)
@@ -51,35 +49,31 @@ public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
     }
 
     @Override
-    public Mono<Page> fetchPage(String apiKey, String pageId) {
-        return webClient.get()
+    public Mono<Page> fetchPage(String pageId) {
+        return notionClient.get()
                 .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI, pageId).build())
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
                 .bodyToMono(Page.class);
     }
 
     @Override
-    public Mono<Page> deletePage(String apiKey, String pageId) {
-        return webClient.patch()
+    public Mono<Page> deletePage(String pageId) {
+        return notionClient.patch()
                 .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI, pageId).build())
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + apiKey)
                 .bodyValue(Map.of("archived", true))
                 .retrieve()
                 .bodyToMono(Page.class);
     }
 
     @Override
-    public Mono<PageProperty> fetchPageProperty(String apiKey, String pageId, String propertyId) {
-
-        return webClient.get()
+    public Mono<PageProperty> fetchPageProperty(String pageId, String propertyId) {
+        return notionClient.get()
                 .uri(uriBuilder ->
                         uriBuilder.pathSegment(PAGE_URI, pageId, "properties", propertyId).build()
                 )
                 .accept(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + apiKey)
                 .retrieve()
                 .bodyToMono(PageProperty.class);
     }

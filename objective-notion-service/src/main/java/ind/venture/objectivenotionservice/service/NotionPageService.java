@@ -18,7 +18,7 @@ public class NotionPageService {
     }
 
 
-    public Mono<Page> findPageById(String apiKey, String pageId) {
-        return LogUtils.logWithContext("페이지 조회: " + pageId, notionPageClient.fetchPage(apiKey, pageId));
+    public Mono<Page> findPageById(String pageId) {
+        return LogUtils.logWithContext("페이지 조회: " + pageId, notionPageClient.fetchPage(pageId));
     }
 }

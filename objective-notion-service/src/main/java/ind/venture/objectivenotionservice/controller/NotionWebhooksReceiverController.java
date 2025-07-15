@@ -15,8 +15,6 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api")
 public class NotionWebhooksReceiverController {
 
-    @Value("${notion.api.key}")
-    private String apiKey;
     private final ObjectiveService objectiveService;
 
     public NotionWebhooksReceiverController(ObjectiveService objectiveService) {
@@ -29,7 +27,7 @@ public class NotionWebhooksReceiverController {
     ) {
         log.info("Received webhook event: {}", event);
         if ("page.properties_updated".equals(event.getType())) {
-            return objectiveService.createSubObjective(apiKey, event);
+            return objectiveService.createSubObjective(event);
         }
         return Mono.empty();
     }
