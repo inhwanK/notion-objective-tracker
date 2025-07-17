@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,9 +18,20 @@ public class ObjectiveService {
     private final NotionObjectiveManager notionManager;
     private final SubObjectiveGenerator subObjectiveGenerator;
 
-    public Mono<Void> createSubObjective(NotionWebhookEvent event) {
-
+    public Mono<List<String>> createSubObjective(NotionWebhookEvent event) {
         return notionManager.getCreatableSubObjectivePage(event)
-                .flatMap(page -> notionManager.deleteAllSubObjectives(page));
+                .flatMap(page -> {
+
+                    String mainObjectiveTitle = notionManager.extractMainObjectiveTitle(page);
+                    return Mono.zip(
+                            notionManager.deleteAllSubObjectives(page),
+                            subObjectiveGenerator.generateSubObjectives(mainObjectiveTitle)
+                    ).flatMap(tuple -> {
+                        List<String> subObjectives = tuple.getT2();
+                        return Mono.just(List.of("성공 "));
+//                        notionManager.createSubObjectives(page, subObjectives);
+                    });
+                });
+
     }
 }
