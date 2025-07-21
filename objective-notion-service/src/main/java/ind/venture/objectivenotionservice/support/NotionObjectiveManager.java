@@ -40,7 +40,7 @@ public class NotionObjectiveManager {
         return Collections.emptyList();
     }
 
-    private String extractMainObjectiveTitle(Page page) {
+    public String extractMainObjectiveTitle(Page page) {
         TitleProperty titleProperty = (TitleProperty) page.getProperties().get("목표");
         return titleProperty.getTitle().getFirst().getText().getContent();
     }
