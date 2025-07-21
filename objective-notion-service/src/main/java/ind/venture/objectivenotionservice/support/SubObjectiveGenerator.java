@@ -33,7 +33,9 @@ public class SubObjectiveGenerator {
         String[] lines = response.split("\\r?\\n");
         for (String line : lines) {
             String trimmed = line.trim();
+
             if (!trimmed.isEmpty()) {
+                log.info("result : {}", trimmed);
                 result.add(trimmed);
             }
         }
