@@ -25,7 +25,7 @@ public class ObjectiveService {
                     String mainObjectiveTitle = notionManager.extractMainObjectiveTitle(page);
                     return Mono.zip(
                             notionManager.deleteAllSubObjectives(page),
-                            Mono.just(subObjectiveGenerator.generateSubObjectives(mainObjectiveTitle))
+                            subObjectiveGenerator.generateSubObjectives(mainObjectiveTitle)
                     ).flatMap(tuple -> {
                         List<String> subObjectives = tuple.getT2();
                         return Mono.just(List.of("성공 "));
