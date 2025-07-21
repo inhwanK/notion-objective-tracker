@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Map;
 
 @Data
@@ -12,7 +13,10 @@ import java.util.Map;
 public class OpenAIPromptRequest {
 
     private Prompt prompt;
-    private Map<String, Object> inputs;
+    private List<Input> input;
+    private Map<String, Object> reasoning;
+    private Integer max_output_tokens;
+    private Boolean store;
 
     @Data
     @NoArgsConstructor
@@ -22,11 +26,31 @@ public class OpenAIPromptRequest {
         private int version;
     }
 
-    public static OpenAIPromptRequest of(String promptId, int version, Map<String, Object> inputs) {
-        return new OpenAIPromptRequest(new Prompt(promptId, version), inputs);
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Input {
+        private String role;
+        private List<Content> content;
     }
 
-    public static OpenAIPromptRequest of(String promptId, int version, String goal) {
-        return of(promptId, version, Map.of("goal", goal));
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Content {
+        private String type;
+        private String text;
+    }
+
+    public static OpenAIPromptRequest of(String promptId, int version, String inputText) {
+        Content content = new Content("input_text", inputText);
+        Input input = new Input("user", List.of(content));
+        return new OpenAIPromptRequest(
+                new Prompt(promptId, version),
+                List.of(input),
+                Map.of(),
+                2048,
+                true
+        );
     }
 }
