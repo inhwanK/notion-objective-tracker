@@ -42,7 +42,7 @@ public class NotionObjectiveManager {
 
     public String extractMainObjectiveTitle(Page page) {
         TitleProperty titleProperty = (TitleProperty) page.getProperties().get("목표");
-        return titleProperty.getTitle().getFirst().getText().getContent();
+        return titleProperty.getTitle().get(0).getText().getContent();
     }
 
     public Mono<Page> getCreatableSubObjectivePage(NotionWebhookEvent event) {
