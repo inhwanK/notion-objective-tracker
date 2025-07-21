@@ -75,16 +75,20 @@ public class SubObjectiveGenerator {
             (※ 주의: 반드시 오직 하위 목표 한 줄씩, 줄바꿈만으로 구분. 어떤 추가 구문도 허용하지 않음.)
             """;
 
-    public Mono<List<String>> generateSubObjectives(String mainObjectiveTitle) {
+    public List<String> generateSubObjectives(String mainObjectiveTitle) {
+        log.info("User message: {}", mainObjectiveTitle);
+
+        // 시스템 메시지와 유저 메시지로 Message 배열 생성
         Message[] messages = {
                 new SystemMessage(SYSTEM_MESSAGE),
                 new UserMessage(mainObjectiveTitle)
         };
 
-        return Mono.fromSupplier(() -> {
-            String response = chatModel.call(messages);
-            return parseSubObjectives(response);
-        });
+        // call로 바로 String 결과 얻기
+        String response = chatModel.call(messages);
+        log.info("sub objective generation : {} ", response);
+
+        return parseSubObjectives(response);
     }
 
     private List<String> parseSubObjectives(String response) {
