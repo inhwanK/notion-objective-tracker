@@ -17,6 +17,7 @@ public class SubObjectiveGenerator {
     private final OpenAiObjectivePromptClient openAiObjectivePromptClient;
 
     public Mono<List<String>> generateSubObjectives(String mainObjectiveTitle) {
+        log.info("Generate sub objectives for main objective title {}", mainObjectiveTitle);
         return openAiObjectivePromptClient
                 .getObjectivesFromPromptId(mainObjectiveTitle)
                 .map(response -> {

@@ -3,11 +3,13 @@ package ind.venture.objectivenotionservice.client;
 import ind.venture.objectivenotionservice.dto.OpenAIPromptRequest;
 import ind.venture.objectivenotionservice.dto.OpenAIPromptResponse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 public class OpenAiWebClient implements OpenAiObjectivePromptClient {
     private final WebClient openAiClient;
@@ -25,7 +27,7 @@ public class OpenAiWebClient implements OpenAiObjectivePromptClient {
     @Override
     public Mono<String> getObjectivesFromPromptId(String goal) {
         OpenAIPromptRequest request = OpenAIPromptRequest.of(promptId, promptVersion, goal);
-
+        log.info("OpenAI Prompt request: {}", request);
         return openAiClient
                 .post()
                 .bodyValue(request)
