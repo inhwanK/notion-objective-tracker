@@ -77,7 +77,6 @@ public class OpenAiWebClient implements OpenAiObjectivePromptClient {
     @Override
     public Mono<String> getObjectivesFromPromptId(String goal) {
         OpenAIPromptRequest request = OpenAIPromptRequest.of("gpt-4.1-nano", SYSTEM_MESSAGE, goal);
-        log.info("OpenAI Prompt request: {}", request);
         return openAiClient
                 .post()
                 .bodyValue(request)
@@ -87,11 +86,13 @@ public class OpenAiWebClient implements OpenAiObjectivePromptClient {
     }
 
     private String extractContentFromResponse(OpenAIPromptResponse response) {
+        log.info("response: {}", response);
         if (response == null || response.getOutput() == null || response.getOutput().isEmpty())
             return "";
         OpenAIPromptResponse.Output output = response.getOutput().get(0);
         if (output.getContent() == null || output.getContent().isEmpty())
             return "";
+        log.info("text: {}", output.getContent().get(0).getText());
         return output.getContent().get(0).getText();
     }
 }
