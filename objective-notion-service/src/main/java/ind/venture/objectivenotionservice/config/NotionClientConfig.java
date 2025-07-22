@@ -20,19 +20,6 @@ public class NotionClientConfig {
                 .defaultHeader("Content-Type", "application/json")
                 .defaultHeader("Notion-Version", "2022-06-28")
                 .defaultHeader("Authorization", "Bearer " + notionApiKey)
-                .filter((exceptionFilter()))
                 .build();
-    }
-
-    private ExchangeFilterFunction exceptionFilter() {
-        return ((request, next) ->
-                next.exchange(request)
-                        .flatMap(response -> {
-                            if (response.statusCode().value() == 429) {
-                                return Mono.error(new RuntimeException("Too Many Requests"));
-                            }
-                            return Mono.just(response);
-                        })
-        );
     }
 }

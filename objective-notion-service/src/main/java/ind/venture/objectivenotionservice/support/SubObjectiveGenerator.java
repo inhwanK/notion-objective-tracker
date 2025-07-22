@@ -1,6 +1,7 @@
 package ind.venture.objectivenotionservice.support;
 
 import ind.venture.objectivenotionservice.client.OpenAiObjectivePromptClient;
+import ind.venture.objectivenotionservice.client.OpenAiWebClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,11 +18,12 @@ public class SubObjectiveGenerator {
     private final OpenAiObjectivePromptClient openAiObjectivePromptClient;
 
     public Mono<List<String>> generateSubObjectives(String mainObjectiveTitle) {
-        log.info("Generate sub objectives for main objective title {}", mainObjectiveTitle);
+        log.info("Generate sub objectives for main objective title: {}", mainObjectiveTitle);
+
         return openAiObjectivePromptClient
                 .getObjectivesFromPromptId(mainObjectiveTitle)
                 .map(response -> {
-                    log.info("sub objective generation : {} ", response);
+                    log.info("OpenAI sub objective list: {}", response);
                     return parseSubObjectives(response);
                 });
     }
@@ -34,13 +36,10 @@ public class SubObjectiveGenerator {
         String[] lines = response.split("\\r?\\n");
         for (String line : lines) {
             String trimmed = line.trim();
-
             if (!trimmed.isEmpty()) {
-                log.info("result : {}", trimmed);
                 result.add(trimmed);
             }
         }
         return result;
     }
-
 }
