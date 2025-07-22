@@ -82,6 +82,7 @@ public class OpenAiWebClient implements OpenAiObjectivePromptClient {
                 .bodyValue(request)
                 .retrieve()
                 .bodyToMono(OpenAIPromptResponse.class)
+                .doOnNext(response -> log.info(response.toString()))
                 .map(this::extractContentFromResponse);
     }
 
