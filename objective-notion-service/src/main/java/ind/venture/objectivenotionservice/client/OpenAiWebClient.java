@@ -1,10 +1,9 @@
 package ind.venture.objectivenotionservice.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ind.venture.objectivenotionservice.dto.OpenAIPromptRequest;
 import ind.venture.objectivenotionservice.dto.OpenAIPromptResponse;
-
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -80,10 +79,22 @@ public class OpenAiWebClient implements OpenAiObjectivePromptClient {
         return openAiClient
                 .post()
                 .bodyValue(request)
-                .retrieve()
-                .bodyToMono(OpenAIPromptResponse.class)
-                .doOnNext(response -> log.info(response.toString()))
-                .map(this::extractContentFromResponse);
+                .exchangeToMono(response -> {
+                    log.info("HTTP Status: {}", response.statusCode());
+                    return response.bodyToMono(String.class)
+                            .doOnNext(body -> log.info("Raw body: {}", body));
+                })
+                .flatMap(raw -> {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        OpenAIPromptResponse res = mapper.readValue(raw, OpenAIPromptResponse.class);
+                        return Mono.just(res.getOutput().get(0).getContent().get(0).getText());
+                    } catch (Exception e) {
+                        log.error("Parsing error!", e);
+                        return Mono.error(e);
+                    }
+                })
+                .doOnError(error -> log.error("OpenAI API error", error));
     }
 
     private String extractContentFromResponse(OpenAIPromptResponse response) {
