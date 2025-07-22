@@ -79,22 +79,9 @@ public class OpenAiWebClient implements OpenAiObjectivePromptClient {
         return openAiClient
                 .post()
                 .bodyValue(request)
-                .exchangeToMono(response -> {
-                    log.info("HTTP Status: {}", response.statusCode());
-                    return response.bodyToMono(String.class)
-                            .doOnNext(body -> log.info("Raw body: {}", body));
-                })
-                .flatMap(raw -> {
-                    try {
-                        ObjectMapper mapper = new ObjectMapper();
-                        OpenAIPromptResponse res = mapper.readValue(raw, OpenAIPromptResponse.class);
-                        return Mono.just(res.getOutput().get(0).getContent().get(0).getText());
-                    } catch (Exception e) {
-                        log.error("Parsing error!", e);
-                        return Mono.error(e);
-                    }
-                })
-                .doOnError(error -> log.error("OpenAI API error", error));
+                .retrieve()
+                .bodyToMono(OpenAIPromptResponse.class)
+                .map(this::extractContentFromResponse);
     }
 
     private String extractContentFromResponse(OpenAIPromptResponse response) {

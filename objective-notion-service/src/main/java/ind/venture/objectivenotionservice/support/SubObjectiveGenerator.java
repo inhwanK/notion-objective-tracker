@@ -23,7 +23,7 @@ public class SubObjectiveGenerator {
         return openAiObjectivePromptClient
                 .getObjectivesFromPromptId(mainObjectiveTitle)
                 .map(response -> {
-                    log.info("OpenAI sub objective response: {}", response);
+                    log.info("OpenAI sub objective list: {}", response);
                     return parseSubObjectives(response);
                 });
     }
@@ -37,7 +37,6 @@ public class SubObjectiveGenerator {
         for (String line : lines) {
             String trimmed = line.trim();
             if (!trimmed.isEmpty()) {
-                log.info("result : {}", trimmed);
                 result.add(trimmed);
             }
         }
