@@ -28,6 +28,9 @@ public class ObjectiveService {
                             subObjectiveGenerator.generateSubObjectives(mainObjectiveTitle)
                     ).flatMap(tuple -> {
                         List<String> subObjectives = tuple.getT2();
+                        for(String subObjective : subObjectives) {
+                            log.info("Sub objective created: {}", subObjective);
+                        }
                         return Mono.just(List.of("성공 "));
 //                        notionManager.createSubObjectives(page, subObjectives);
                     });

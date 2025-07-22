@@ -12,19 +12,8 @@ import java.util.Map;
 @AllArgsConstructor
 public class OpenAIPromptRequest {
 
-    private Prompt prompt;
+    private String model;
     private List<Input> input;
-    private Map<String, Object> reasoning;
-    private Integer max_output_tokens;
-    private Boolean store;
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Prompt {
-        private String id;
-        private int version;
-    }
 
     @Data
     @NoArgsConstructor
@@ -42,15 +31,14 @@ public class OpenAIPromptRequest {
         private String text;
     }
 
-    public static OpenAIPromptRequest of(String promptId, int version, String inputText) {
-        Content content = new Content("input_text", inputText);
-        Input input = new Input("user", List.of(content));
-        return new OpenAIPromptRequest(
-                new Prompt(promptId, version),
-                List.of(input),
-                Map.of(),
-                2048,
-                true
-        );
+
+    public static OpenAIPromptRequest of(String model, String systemPrompt, String userPrompt) {
+        Content systemContent = new Content("input_text", systemPrompt);
+        Input systemInput = new Input("system", List.of(systemContent));
+
+        Content userContent = new Content("input_text", userPrompt);
+        Input userInput = new Input("user", List.of(userContent));
+
+        return new OpenAIPromptRequest(model, List.of(systemInput, userInput));
     }
 }
