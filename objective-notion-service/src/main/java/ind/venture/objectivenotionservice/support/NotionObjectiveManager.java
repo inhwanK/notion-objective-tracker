@@ -55,7 +55,7 @@ public class NotionObjectiveManager {
 
         return notionPageClient.fetchPage(pageId)
                 .doOnNext(notionPage -> log.info("notionPage {}", notionPage))
-//                .filter(page -> validateRelation(page) && validateSubObjectiveCreatedAt(page.getProperties(), properties))
+                .filter(page -> validateRelation(page) && validateSubObjectiveCreatedAt(page.getProperties(), properties))
                 .switchIfEmpty(Mono.error(new IllegalStateException("하위 목표 생성 조건이 아닙니다.")));
     }
 
