@@ -23,7 +23,7 @@ public class NotionWebhooksReceiverController {
     }
 
     @PostMapping("/webhook/event")
-    public Mono<List<String>> receiveEvent(
+    public Mono<Void> receiveEvent(
             @RequestBody NotionWebhookEvent event
     ) {
         log.info("Received webhook event: {}", event);

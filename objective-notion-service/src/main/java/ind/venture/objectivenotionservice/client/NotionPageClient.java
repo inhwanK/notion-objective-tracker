@@ -7,6 +7,7 @@ import reactor.core.publisher.Mono;
 public interface NotionPageClient {
     Mono<Page> fetchPage(String pageId);
     Mono<Page> deletePage(String pageId);
+    Mono<Page> createSubPage(String databaseId, String parentPageId, String title);
     Mono<PageProperty> fetchPageProperty(String pageId, String propertyId);
 
 }

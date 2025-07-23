@@ -23,6 +23,10 @@ import java.util.Map;
 public class NotionObjectiveManager {
     private final NotionPageClient notionPageClient;
 
+    public Mono<Page> createSubPage(String databaseId, String parentPageId, String title) {
+        return notionPageClient.createSubPage(databaseId, parentPageId, title);
+    }
+
     public Mono<Void> deleteAllSubObjectives(Page page) {
         List<Relation> relations = extractSubRelations(page);
         return Flux.fromIterable(relations)
