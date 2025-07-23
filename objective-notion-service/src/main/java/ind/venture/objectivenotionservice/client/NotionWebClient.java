@@ -5,7 +5,9 @@ import ind.venture.objectivenotion.model.database.Database;
 import ind.venture.objectivenotion.model.database.QueryResults;
 import ind.venture.objectivenotion.model.page.Page;
 import ind.venture.objectivenotion.model.page.property.PageProperty;
+import ind.venture.objectivenotion.request.CreatePageRequest;
 import ind.venture.objectivenotion.request.QueryDatabaseRequest;
+import ind.venture.objectivenotionservice.util.PageRequestFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -53,6 +55,23 @@ public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
         return notionClient.get()
                 .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI, pageId).build())
                 .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(Page.class);
+    }
+
+    @Override
+    public Mono<Page> createSubPage(String databaseId, String parentPageId, String title) {
+
+        CreatePageRequest requestBody = PageRequestFactory.createSubPageRequest(
+                databaseId,
+                title,
+                parentPageId
+        );
+
+        return notionClient.post()
+                .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI).build())
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(requestBody)
                 .retrieve()
                 .bodyToMono(Page.class);
     }

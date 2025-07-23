@@ -3,10 +3,8 @@ package ind.venture.objectivenotionservice.util;
 
 import ind.venture.objectivenotion.model.page.Page;
 import ind.venture.objectivenotion.model.page.property.*;
-import ind.venture.objectivenotion.model.page.type.Date;
-import ind.venture.objectivenotion.model.page.type.Link;
-import ind.venture.objectivenotion.model.page.type.RichText;
-import ind.venture.objectivenotion.model.page.type.Text;
+import ind.venture.objectivenotion.model.page.type.*;
+import ind.venture.objectivenotion.request.CreatePageRequest;
 
 import java.time.Instant;
 import java.util.HashMap;
