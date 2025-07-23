@@ -5,24 +5,14 @@ import ind.venture.objectivenotion.model.page.property.PageProperty;
 import java.util.Map;
 
 public class CreatePageRequest {
-    private Parent parent;
-    private Map<String, PageProperty> properties;
+    private Map<String, Object> parent;
+    private Map<String, Object> properties;
 
-    public static class Parent {
-        private String database_id;
-
-        public Parent(String databaseId) {
-            this.database_id = databaseId;
-        }
-        public String getDatabase_id() { return database_id; }
-        public void setDatabase_id(String database_id) { this.database_id = database_id; }
-    }
-
-    public CreatePageRequest(Parent parent, Map<String, PageProperty> properties) {
+    public CreatePageRequest(Map<String, Object> parent, Map<String, Object> properties) {
         this.parent = parent;
         this.properties = properties;
     }
 
-    public Parent getParent() { return parent; }
-    public Map<String, PageProperty> getProperties() { return properties; }
+    public Map<String, Object> getParent() { return parent; }
+    public Map<String, Object> getProperties() { return properties; }
 }

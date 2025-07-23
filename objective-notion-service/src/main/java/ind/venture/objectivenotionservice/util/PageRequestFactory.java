@@ -1,11 +1,6 @@
 package ind.venture.objectivenotionservice.util;
 
-import ind.venture.objectivenotion.model.page.property.PageProperty;
-import ind.venture.objectivenotion.model.page.property.RelationProperty;
-import ind.venture.objectivenotion.model.page.property.TitleProperty;
 import ind.venture.objectivenotion.model.page.type.Link;
-import ind.venture.objectivenotion.model.page.type.Relation;
-import ind.venture.objectivenotion.model.page.type.RichText;
 import ind.venture.objectivenotion.model.page.type.Text;
 import ind.venture.objectivenotion.request.CreatePageRequest;
 
@@ -19,22 +14,27 @@ public class PageRequestFactory {
             String title,
             String parentPageId
     ) {
-        Map<String, PageProperty> properties = new HashMap<>();
-        properties.put("목표", createTitleProperty(null, title, null));
-        properties.put("상위 항목", new RelationProperty(null, List.of(new Relation(parentPageId)), null));
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("목표", createTitleProperty(title));
+        properties.put("상위 항목", createRelationProperty(parentPageId));
 
-        return new CreatePageRequest(new CreatePageRequest.Parent(databaseId), properties);
+        Map<String, Object> parent = Map.of("database_id", databaseId);
+        return new CreatePageRequest(parent, properties);
     }
 
-    public static PageProperty createTitleProperty(String id, String text, String href) {
-        return new TitleProperty(id, List.of(createRichText(text, href)));
+    public static Map<String, Object> createTitleProperty(String title) {
+        return Map.of(
+                "title", List.of(
+                        Map.of("text", Map.of("content", title))
+                )
+        );
     }
 
-    public static RichText createRichText(String text, String href) {
-        return new RichText(
-                createText(text, href),
-                text,
-                href
+    public static Map<String, Object> createRelationProperty(String parentPageId) {
+        return Map.of(
+                "relation", List.of(
+                        Map.of("id", parentPageId)
+                )
         );
     }
 
