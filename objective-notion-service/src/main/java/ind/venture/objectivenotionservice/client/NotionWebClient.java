@@ -68,6 +68,13 @@ public class NotionWebClient implements NotionDatabaseClient, NotionPageClient {
                 parentPageId
         );
 
+        try {
+            String json = new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(requestBody);
+            log.info("Notion 페이지 생성 요청 바디: {}", json);
+        } catch (Exception e) {
+            log.warn("요청 바디 직렬화 실패", e);
+        }
+
         return notionClient.post()
                 .uri(uriBuilder -> uriBuilder.pathSegment(PAGE_URI).build())
                 .accept(MediaType.APPLICATION_JSON)
