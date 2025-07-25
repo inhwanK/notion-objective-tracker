@@ -20,29 +20,13 @@ import java.util.List;
 @RequestMapping("/api")
 public class NotionWebhooksReceiverController {
 
-    private final ObjectMapper objectMapper;
     private final ObjectiveService objectiveService;
 
     @PostMapping("/webhook/event")
-    public Mono<Void> receiveEvent(@RequestBody String body) {
-        try {
-            JsonNode root = objectMapper.readTree(body);
-
-            // 웹훅 등록 시 verification_token 확인하기
-            if (root.has("verification_token")) {
-                log.info("Webhook verification_token: {}", root.get("verification_token").asText());
-                return Mono.empty();
-            }
-
-            // 그 외에는 NotionWebhookEvent
-            NotionWebhookEvent event = objectMapper.treeToValue(root, NotionWebhookEvent.class);
-            log.info("Received webhook event: {}", event);
-
-            if ("page.properties_updated".equals(event.getType())) {
-                return objectiveService.createSubObjective(event);
-            }
-        } catch (Exception e) {
-            log.error("Failed to handle webhook event: {}", e.getMessage(), e);
+    public Mono<Void> receiveEvent(@RequestBody NotionWebhookEvent event) {
+        log.info("Received webhook event: {}", event);
+        if ("page.properties_updated".equals(event.getType())) {
+            return objectiveService.createSubObjective(event);
         }
         return Mono.empty();
     }
