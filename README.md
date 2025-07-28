@@ -16,7 +16,10 @@ Notion DB 기반 목표를 자동 세분화하고 하위 목표를 생성하는 
 - objective-notion-service  
   → WebClient, 비즈니스 로직, API 서버 구현 포함
 
-### ⚙️ 실행 전 준비 사항
+
+---
+
+### ⚙️ 실행 전 준비 사항  
 1. **노션 DB 템플릿 복제**
    - 본 프로젝트는 아래 Notion DB 템플릿 구조에 맞게 동작합니다. 필수 속성은 '목표', '하위 목표 생성', '하위 목표 생성 시간' 입니다.
    - [🔗 Notion 템플릿 링크](https://hollow-truffle-4cf.notion.site/notion-objective-tracker-19211e3ff10e8011b5ecc0a1c1d39e0f?source=copy_link)를 클릭해 자신의 워크스페이스로 템플릿을 복제하세요.
@@ -44,8 +47,8 @@ notion:
 ```
 🔐 민감한 키는 절대 커밋하지 말고, .gitignore로 예외 처리하세요.  
 예시 파일: application-example.yml
-  
-  
+
+<br>
 
 ### 🏗️ 빌드 및 실행
 ```bash
@@ -53,6 +56,8 @@ notion:
 cd objective-notion-service
 java -jar build/libs/objective-notion-service-0.0.1-SNAPSHOT.jar
 ```
+
+<br>
 
 ### 🌐 웹훅 등록 및 HTTPS 배포 (노션 API)
 노션 웹훅을 등록하기 위해선 공개 HTTPS 주소가 필요합니다.
@@ -86,6 +91,8 @@ public Mono<Void> receiveEvent(@RequestBody NotionWebhookEvent event) {
     return Mono.empty();
 }
 ```
+
+<br>
 
 ### ✅ 주요 기능
 - Notion 목표 데이터에서 하위 목표 자동 생성 
