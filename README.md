@@ -16,8 +16,7 @@ Notion DB 기반 목표를 자동 세분화하고 하위 목표를 생성하는 
 - objective-notion-service  
   → WebClient, 비즈니스 로직, API 서버 구현 포함
 
-
----
+<br>
 
 ### ⚙️ 실행 전 준비 사항  
 1. **노션 DB 템플릿 복제**
