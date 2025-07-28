@@ -1,7 +1,5 @@
 package ind.venture.objectivenotionservice.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ind.venture.objectivenotion.model.webhooks.NotionWebhookEvent;
 import ind.venture.objectivenotionservice.service.ObjectiveService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -22,6 +18,7 @@ public class NotionWebhooksReceiverController {
 
     private final ObjectiveService objectiveService;
 
+    //  웹훅 인증시에는 주석 처리하여 빌드
     @PostMapping("/webhook/event")
     public Mono<Void> receiveEvent(@RequestBody NotionWebhookEvent event) {
         log.info("Received webhook event: {}", event);
@@ -30,4 +27,13 @@ public class NotionWebhooksReceiverController {
         }
         return Mono.empty();
     }
+
+    // 노션 웹훅 등록 시 사용
+    /*
+    @PostMapping("/webhook/event")
+    public String receiveEvent(@RequestBody String validation_token) {
+        log.info("Received webhook validation token: {}", validation_token);
+        return validation_token;
+    }
+    */
 }
