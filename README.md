@@ -17,7 +17,6 @@ Notion DB 기반 목표를 자동 세분화하고 하위 목표를 생성하는 
   → WebClient, 비즈니스 로직, API 서버 구현 포함
 
 ### ⚙️ 실행 전 준비 사항
-⚙️ 실행 전 준비 사항
 1. **노션 DB 템플릿 복제**
    - 본 프로젝트는 아래 Notion DB 템플릿 구조에 맞게 동작합니다. 필수 속성은 '목표', '하위 목표 생성', '하위 목표 생성 시간' 입니다.
    - [🔗 Notion 템플릿 링크](https://hollow-truffle-4cf.notion.site/notion-objective-tracker-19211e3ff10e8011b5ecc0a1c1d39e0f?source=copy_link)를 클릭해 자신의 워크스페이스로 템플릿을 복제하세요.
@@ -31,20 +30,22 @@ Notion DB 기반 목표를 자동 세분화하고 하위 목표를 생성하는 
 4. **application.yml 설정**  
    - objective-notion-service/src/main/resources/application.yml 파일을 아래와 같이 작성하세요:
 
-    ```yaml
-    spring:
-      application:
-        name: objective-notion-service
-      ai:
-        openai:
-          api-key: sk-xxxxxx...
-    
-    notion:
-      api:
-        key: secret_xxxxx...
-    ```
-    🔐 민감한 키는 절대 커밋하지 말고, .gitignore로 예외 처리하세요.  
-    예시 파일: application-example.yml
+```yaml
+spring:
+  application:
+    name: objective-notion-service
+  ai:
+    openai:
+      api-key: sk-xxxxxx...
+
+notion:
+  api:
+    key: secret_xxxxx...
+```
+🔐 민감한 키는 절대 커밋하지 말고, .gitignore로 예외 처리하세요.  
+예시 파일: application-example.yml
+  
+  
 
 ### 🏗️ 빌드 및 실행
 ```bash
@@ -57,7 +58,14 @@ java -jar build/libs/objective-notion-service-0.0.1-SNAPSHOT.jar
 노션 웹훅을 등록하기 위해선 공개 HTTPS 주소가 필요합니다.
 로컬 테스트가 불가하므로 AWS EC2 + 인증서 (예: certbot) 등을 활용해 서버를 띄우고 아래 절차를 따르세요.
 
-웹 훅 수신 api인 /api/webhook/event 엔드포인트는 컨트롤러(NotionWebhooksReceiverController)에 구현되어 있습니다.
+Notion 웹훅 등록 시, 아래 엔드포인트를 입력하세요. (외부에서 접근 가능한 HTTPS 서버에 배포되어 있어야 합니다.)
+  
+> https://<your-domain-or-public-ip>/api/webhook/event
+- `<your-domain-or-public-ip>`는 실제 배포 서버의 도메인 또는 퍼블릭 IP로 교체하세요.
+- 반드시 HTTPS 프로토콜을 사용해야 하며, HTTP로는 Notion에서 등록할 수 없습니다.
+
+
+**/api/webhook/event** 엔드포인트는 컨트롤러(NotionWebhooksReceiverController)에 구현되어 있습니다.
 Notion 웹훅 등록 과정에서는 아래처럼 인증용 핸들러로 잠시 변경해야 합니다. 변경 후 요청 바디로 들어오는 validation_token을 복사하여 인증하시면 됩니다.
 ```java
 @PostMapping("/webhook/event")
@@ -79,15 +87,12 @@ public Mono<Void> receiveEvent(@RequestBody NotionWebhookEvent event) {
 }
 ```
 
-### 🧾 Notion DB 템플릿
-현재는 다른 속성이 추가로 존재하면 동작하지 않지만, 향후 속성이 추가되어도 정상 동작하도록 점진적으로 보완할 예정입니다.
-
-✅ 주요 기능
+### ✅ 주요 기능
 - Notion 목표 데이터에서 하위 목표 자동 생성 
 - WebClient 기반 OpenAI Prompt 호출 
 - AWS HTTPS 기반 Notion Webhook 이벤트 수신
-- 날짜(일별, 주별) 기반 페이지 조회 기능(리마인더 기능 보완 예정)
+- 날짜(일별, 주별) 기반 페이지 조회 기능(보완 예정)
 
-#### 🛠️ 보완점 및 향후 계획
+### 🛠️ 보완점 및 향후 계획
 - 날짜별 페이지 조회를 통한 리마인더 기능은 아직 미완성 단계이며, 추후 하위 목표 자동 알림 및 사용자 맞춤 알림 기능을 추가할 계획입니다.
 - Notion DB에 새로운 속성이 추가되어도 기존 기능이 정상 동작하도록 구조 개선을 계속 진행 중입니다.
