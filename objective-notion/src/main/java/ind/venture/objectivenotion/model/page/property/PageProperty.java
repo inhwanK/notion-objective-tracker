@@ -3,7 +3,7 @@ package ind.venture.objectivenotion.model.page.property;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true, defaultImpl = UnknownPageProperty.class)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = TitleProperty.class, name = "title"),
         @JsonSubTypes.Type(value = DateProperty.class, name = "date"),
