@@ -12,6 +12,6 @@ public class HealthCheckController {
 
     @GetMapping("/health")
     public void health() {
-        log.info("health check");
+//        log.info("health check");
     }
 }
