@@ -101,4 +101,3 @@ public Mono<Void> receiveEvent(@RequestBody NotionWebhookEvent event) {
 
 ### 🛠️ 보완점 및 향후 계획
 - 날짜별 페이지 조회를 통한 리마인더 기능은 아직 미완성 단계이며, 추후 하위 목표 자동 알림 및 사용자 맞춤 알림 기능을 추가할 계획입니다.
-- Notion DB에 새로운 속성이 추가되어도 기존 기능이 정상 동작하도록 구조 개선을 계속 진행 중입니다.
