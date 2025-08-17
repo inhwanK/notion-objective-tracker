@@ -64,7 +64,7 @@ java -jar build/libs/objective-notion-service-0.0.1-SNAPSHOT.jar
 
 Notion 웹훅 등록 시, 아래 엔드포인트를 입력하세요. (외부에서 접근 가능한 HTTPS 서버에 배포되어 있어야 합니다.)
   
-> https://<your-domain-or-public-ip>/api/webhook/event
+> https://your-domain-or-public-ip/api/webhook/event
 - `<your-domain-or-public-ip>`는 실제 배포 서버의 도메인 또는 퍼블릭 IP로 교체하세요.
 - 반드시 HTTPS 프로토콜을 사용해야 하며, HTTP로는 Notion에서 등록할 수 없습니다.
 
