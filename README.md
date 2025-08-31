@@ -4,7 +4,6 @@ Notion DB 기반 목표를 자동 세분화하고 하위 목표를 생성하는 
 ### 📦 기술 스택
 - Java 17
 - Spring Boot 3.x (WebFlux)
-- Gradle 멀티 모듈
 - Notion API
 - OpenAI API 
 - AWS
