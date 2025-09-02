@@ -1,6 +1,7 @@
 ## 🧠 Objective Notion Tracker
 Notion DB 기반 목표를 자동 세분화하고 하위 목표를 생성하는 자동화 서비스입니다.
 
+![시연 영상.gif](%EC%8B%9C%EC%97%B0%20%EC%98%81%EC%83%81.gif)
 ### 📦 기술 스택
 - Java 17
 - Spring Boot 3.x (WebFlux)
