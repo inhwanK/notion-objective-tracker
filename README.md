@@ -1,13 +1,9 @@
 ## 🧠 Objective Notion Tracker
-Notion DB 기반 목표를 자동 세분화하고 하위 목표를 생성하는 자동화 서비스입니다.
+사용자가 상위 목표를 입력하면, 이를 AI가 실행 가능한 하위 목표로 자동 분해하여 Notion 페이지에 기록해주는 목표 관리 도구입니다.
 
 ![시연 영상.gif](%EC%8B%9C%EC%97%B0%20%EC%98%81%EC%83%81.gif)
 ### 📦 기술 스택
-- Java 17
-- Spring Boot 3.x (WebFlux)
-- Notion API
-- OpenAI API 
-- AWS
+- Java, Spring Boot, Spring WebFlux, WebClient, Reactor, Notion API, OpenAI API, AWS
 
 ### 🗂️ 모듈 구성
 - objective-notion-model  
